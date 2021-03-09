@@ -20,6 +20,34 @@ public class LenketListe <T> implements Liste<T>{
     }
   }
 
+  @SuppressWarnings("unchecked")
+  class LenkelisteIterator implements Iterator<T>{
+
+    private Liste<T> liste;
+    private int indeks;
+
+    public LenkelisteIterator (Liste<T> nyListe){
+      liste = nyListe;
+      indeks = 0;
+    }
+
+    @Override
+    public boolean hasNext(){return indeks<liste.stoerrelse();}
+
+    @Override
+    public T next(){return liste.hent(indeks++);}
+  }
+  
+  
+/*    @Override
+    public void remove(){}
+  }
+  */ 
+  
+  public Iterator<T> iterator(){
+    return new LenkelisteIterator(this);
+  }  
+  
   @Override
   public String toString(){
     Node denne = forste;
