@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 public class LenketListe <T> implements Liste<T>{
 
   private Node forste = null;
