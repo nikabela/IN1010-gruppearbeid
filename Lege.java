@@ -1,10 +1,10 @@
 class Lege implements Comparable<Lege>{
 
-  String lege;
+  String navn;
   LenketListe<Resept> utskrevedeResepter;
 
   public Lege(String navn) {
-    lege = navn;
+    this.navn = navn;
     utskrevedeResepter = new LenketListe<Resept>();
   }
 
@@ -48,11 +48,11 @@ class Lege implements Comparable<Lege>{
 
   @Override
   public int compareTo(Lege l) {
-    return lege.compareTo(l.hentLege());
+    return navn.compareTo(l.hentLege());
   }
 
   public String hentLege() {
-    return lege;
+    return navn;
   }
 
   public String toString() {
