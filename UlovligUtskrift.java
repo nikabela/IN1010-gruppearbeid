@@ -3,7 +3,7 @@
 // kastes unntaket UlovligUtskrift
 
 public class UlovligUtskrift extends Exception{
-  UlovligUtskrift(Lege l, Legemiddel lm){
+  UlovligUtskrift(Lege l, Legemidler lm){
     super("Legen " + l.hentLege() + " har ikke lov til å skrive ut " + lm.hentNavn());
     }
 }
