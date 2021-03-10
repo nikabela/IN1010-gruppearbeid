@@ -4,11 +4,11 @@ abstract class Resept{
 
   protected int reseptId;
   protected Legemidler legemiddel;
-  protected String lege;
+  protected Lege lege;
   protected Pasient pasient;
   protected static int reit;
 
-  public Resept( Legemidler legemiddel, String lege,  int reit, Pasient pasient){
+  public Resept( Legemidler legemiddel, Lege lege,  int reit, Pasient pasient){
     reseptId = globalID;
     globalID ++;
 
@@ -22,7 +22,7 @@ abstract class Resept{
     return legemiddel;
   }
 
-  public String hentLege(){
+  public Lege hentLege(){
     return lege;
   }
 
@@ -59,7 +59,7 @@ abstract class Resept{
 
 class HvitResept extends Resept{
 
-  public HvitResept ( Legemidler legemiddel, String lege, Pasient pasient, int reit){
+  public HvitResept ( Legemidler legemiddel, Lege lege, Pasient pasient, int reit){
     super( legemiddel, lege, reit, pasient);
   }
 
@@ -77,7 +77,7 @@ class HvitResept extends Resept{
 
 class Militaer extends HvitResept{
 
-  public Militaer(Legemidler legemiddel, String lege, Pasient pasient, int reit){
+  public Militaer(Legemidler legemiddel, Lege lege, Pasient pasient, int reit){
 
     super(legemiddel, lege, pasient, reit);
 
@@ -90,7 +90,7 @@ class PResept extends HvitResept{
 
   int nyPris;
 
-  public PResept ( Legemidler legemiddel, String lege, Pasient pasient){
+  public PResept ( Legemidler legemiddel, Lege lege, Pasient pasient){
     super( legemiddel, lege, pasient, 3);
 
     // legemiddel.settNyPris(legemiddel.hentPris() - 108);
@@ -111,7 +111,7 @@ class BlaaResept extends Resept{
   int pris;
   int rabatt;
 
-  public BlaaResept (int reseptId, Legemidler legemiddel, String lege, Pasient pasient, int reit){
+  public BlaaResept (Legemidler legemiddel, Lege lege, Pasient pasient, int reit){
     super( legemiddel, lege, reit, pasient);
 
     pris = legemiddel.hentPris();
