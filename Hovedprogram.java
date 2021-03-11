@@ -29,5 +29,6 @@ public class Hovedprogram {
           }
           break;
         }
+        valg.close();
     }
 }
