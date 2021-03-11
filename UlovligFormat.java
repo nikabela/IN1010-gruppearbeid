@@ -4,6 +4,6 @@ unntaket kastes.*/
 
 public class UlovligFormat extends Exception{
     UlovligFormat(String  linje) {
-        super("Input-linjen" + linje + "har ugyldig format. Elementet skal ikke lagres.");
+        super("Input-linjen " + linje + " har ugyldig format. Elementet skal ikke lagres.");
     }
 }
