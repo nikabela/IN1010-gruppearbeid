@@ -38,4 +38,8 @@ class Pasient {
    public Stabel<Resept> hentResepter(){
      return resepter;
    }
+   
+   public String toString(){
+     return ("Navn: " +  this.hentNavn() + " ID: " + this.hentPasientId() + " FoedselsNr: " + this.hentFodselsnr());
+   }
  }
