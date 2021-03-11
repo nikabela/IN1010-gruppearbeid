@@ -8,15 +8,12 @@ abstract class Legemidler{
   protected int pris;
   protected double mg;
 
-  public Legemidler(String navn, int id, int pris, double mg){
-    id = globalID;
-    globalID++;
-
-
+  public Legemidler(String navn, int pris, double mg){
     this.navn = navn;
-    this.id = id;
+    this.id = globalID;
     this.pris = pris;
     this.mg = mg;
+    globalID++;
   }
 
   public String hentNavn(){
@@ -51,8 +48,8 @@ abstract class Legemidler{
 
 class Vanlig extends Legemidler{
 
-  public Vanlig (String navn, int id, int pris, double mg) {
-  super(navn, id, pris, mg);
+  public Vanlig (String navn, int pris, double mg) {
+  super(navn, pris, mg);
   }
 }
 
@@ -60,8 +57,8 @@ class Narkotisk extends Legemidler{
 
   int hvorNarkotisk;
 
-  public Narkotisk (String navn, int id, int pris, double mg, int narkotiskStyrke){
-    super(navn, id, pris, mg);
+  public Narkotisk (String navn, int pris, double mg, int narkotiskStyrke){
+    super(navn, pris, mg);
     hvorNarkotisk = narkotiskStyrke;
 
     }
@@ -75,9 +72,9 @@ class Vanedannende extends Legemidler {
 
   int hvorVanedannende;
 
-  public Vanedannende (String navn, int id, int pris, double mg, int hvorVanedannende){
-    super(navn, id, pris, mg);
-    hvorVanedannende = hvorVanedannende;
+  public Vanedannende (String navn, int pris, double mg, int vanedannendeStyrke){
+    super(navn, pris, mg);
+    hvorVanedannende = vanedannendeStyrke;
   }
 
   public int hentVanedannendeStyrke(){
