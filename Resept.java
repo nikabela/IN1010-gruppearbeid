@@ -6,7 +6,7 @@ abstract class Resept{
   protected Legemidler legemiddel;
   protected Lege lege;
   protected Pasient pasient;
-  protected static int reit;
+  protected int reit;
 
   public Resept( Legemidler legemiddel, Lege lege,  int reit, Pasient pasient){
     reseptId = globalID;
