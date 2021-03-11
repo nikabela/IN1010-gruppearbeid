@@ -1,12 +1,12 @@
 
-class Pasient <T> {
+class Pasient {
 
    private static int globalID = 0;
 
    private String navn;
    private String fodselsnr;
    private int pasientId;
-   private Stabel <T> resepter;
+   private Stabel <Resept> resepter;
 
    public Pasient(String navn, String fodselsnr){
      // id skal settes idet objektet opprettes, ikke tas inn som argument
@@ -15,7 +15,7 @@ class Pasient <T> {
 
      this.navn = navn;
      this.fodselsnr = fodselsnr;
-     resepter = new Stabel();
+     resepter = new Stabel<Resept>();
    }
 
    public String hentNavn(){
@@ -31,11 +31,11 @@ class Pasient <T> {
    }
 
    // metode som legger til en resept i stabelen
-   public void leggTilReseptIStabel(T resept){
+   public void leggTilReseptIStabel(Resept resept){
      resepter.leggPaa(resept);
    }
 
-   public Stabel hentResepter(){
+   public Stabel<Resept> hentResepter(){
      return resepter;
    }
  }
