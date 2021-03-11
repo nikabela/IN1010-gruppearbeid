@@ -18,7 +18,7 @@ public class Hovedprogram {
         Scanner valg = new Scanner(System.in);
         int in = valg.nextInt();
 
-        while(in != 0){             //her skal programmet håpe til riktig deloppgave i E
+        while(in != 0){             //her skal programmet hoppe til riktig deloppgave i E
           if(in == 1){
           }else if (in ==2){
           }else if(in == 3){
