@@ -1,5 +1,5 @@
-import java.util.Scanner;
-import java.io.File;
+import java.util.*;
+import java.io.*;
 
 class Legesystem {
     private LenketListe<Pasient> pasientListe = new LenketListe<Pasient>();
@@ -13,7 +13,7 @@ class Legesystem {
 
         try { //haandterer FileNotFoundException
             fil = new Scanner(new File(filnavn));
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             System.out.println("Kan ikke lese filen " + filnavn + ". Avslutter programmet.");
             System.exit(1);
         }
@@ -22,8 +22,8 @@ class Legesystem {
         if (!fil.hasNextLine()) {System.out.println("Filen er tom!"); System.exit(1);}
 
         //leser inn pasient-objekter
-        if (fil.nextLine() == "# Pasienter (navn, fnr)") {
-            while (fil.nextLine() != "# Legemidler (navn,type,pris,virkestoff,[styrke])") {
+        if (fil.nextLine().startsWith("# Pasienter")) {
+            while (!fil.nextLine().startsWith("# Legemidler")) {
                 String linje = fil.nextLine();
                 String[] biter = linje.split(",");
                 if (biter.length != 2) throw new UlovligFormat(linje);
@@ -34,8 +34,8 @@ class Legesystem {
         } else {System.out.println("Filformatten for pasienter er ikke riktig."); System.exit(1);}
 
         //leser inn legemiddel-objekter
-        if (fil.nextLine() == "# Legemidler (navn,type,pris,virkestoff,[styrke])") {
-            while (fil.nextLine() != "# Leger (navn,kontrollid / 0 hvis vanlig lege)") {
+        if (fil.nextLine().startsWith("# Legemidler")) {
+            while (!fil.nextLine().startsWith("# Leger")) {
                 String linje = fil.nextLine();
                 String[] biter = linje.split(",");
                 if (biter.length != 4 || biter.length != 5) throw new UlovligFormat(linje);                
@@ -67,8 +67,8 @@ class Legesystem {
         } else {System.out.println("Filformatten for legemidler er ikke riktig."); System.exit(1);}
 
         //leser inn lege-objekter
-        if (fil.nextLine() == "# Leger (navn,kontrollid / 0 hvis vanlig lege)") {
-            while (fil.nextLine() != "# Resepter (legemiddelNummer,legeNavn,pasientID,type,[reit])") {
+        if (fil.nextLine().startsWith("# Leger")) {
+            while (!fil.nextLine().startsWith("# Resepter")) {
                 Lege nyLege;
                 String linje = fil.nextLine();
                 String[] biter = linje.split(",");
@@ -85,7 +85,7 @@ class Legesystem {
         } else {System.out.println("Filformatten for leger er ikke riktig."); System.exit(1);}
 
         //leser inn resept-objekter
-        if (fil.nextLine() == "# Resepter (legemiddelNummer,legeNavn,pasientID,type,[reit])") {
+        if (fil.nextLine().startsWith("# Resepter")) {
             while (fil.hasNextLine()) {
                 Lege utskrevendeLege = null;
                 Pasient naavaerendePasient = null;
@@ -132,7 +132,6 @@ class Legesystem {
         } else {System.out.println("Filformatten for pasienter er ikke riktig."); System.exit(1);}
     }
 
-    
     
     
     // dette her er helt samme metode som oppover, bare proever forskjellige maater aa lese inn input
