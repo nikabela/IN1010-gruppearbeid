@@ -163,4 +163,32 @@ class Legesystem {
             } else {System.out.println("Filformatten for pasienter er ikke riktig."); System.exit(1);}
         }
     }
+    public void hentOversikt() {
+
+      System.out.println("Pasienter: \n");
+
+      for (Pasient pasient : pasientListe) {
+        System.out.println(pasient.toString());
+      }
+
+      System.out.println("Legemiddler: \n");
+
+      for (Legemidler legemiddel : legemiddelListe) {
+        System.out.println(legemiddel.toString());
+      }
+
+      System.out.println("Leger: \n");
+
+      for (Lege lege : legerListe) {
+        System.out.println(lege.toString());
+      }
+
+      System.out.println("Resepter: \n");
+
+      for (Resept resept : reseptListe) {
+        System.out.println(resept.toString());
+      }
+
+    }
+
 }
