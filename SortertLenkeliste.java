@@ -1,4 +1,4 @@
-public class SortertLenkeliste <T extends Comparable <T>> extends LenketListe <T> implements Liste <T> {
+public class SortertLenkeliste <T extends Comparable <T>> extends LenketListe <T>{
 
   @Override
   public void leggTil(T x){
