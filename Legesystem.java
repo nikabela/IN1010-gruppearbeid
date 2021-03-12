@@ -42,9 +42,31 @@ class Legesystem {
                 String[] biter = linje.split(",");
                 if (biter.length != 4 && biter.length != 5) throw new UlovligFormat(linje);                
                 String navn = biter[0];
+                //for komplekse navn i myeInndata.txt
+                if (navn.contains("/")) navn.replace("/", ",");
+
                 String type = biter[1];
-                int pris = Integer.parseInt(biter[2]);
                 double virkestoff = Double.parseDouble(biter[3]);
+                int pris = 0;
+
+                try { //sjekker om prisen er int
+                    pris = Integer.parseInt(biter[2]);
+                } catch (NumberFormatException e) {
+                    // prøver aa omgjoere det til int
+                    String tallInt = "";
+                    int i = 0;
+                    while (!(biter[2].charAt(i) == '.')) {
+                        tallInt = tallInt + biter[2].charAt(i); 
+                        i++;
+                        if (i == biter[2].length()) break;
+                    }
+                    try { //sjekker om det var faatt til
+                        pris = Integer.parseInt(tallInt);
+                    } catch (NumberFormatException e1) {
+                        System.out.println("Prisen " + biter[2] + " er ikke en gyldig pris. Elementet skal ikke lagres.");
+                        System.exit(1);
+                    }
+                }
 
                 //om legemiddel er av typen 'vanlig'
                 if (type.startsWith("vanlig")) {
@@ -153,18 +175,26 @@ class Legesystem {
             System.out.println("    "+ pasient.toString());
         }
 
+
         System.out.println("\n\nLegemiddler:");
 
         for (Legemidler legemiddel : legemiddelListe) {
             System.out.println(legemiddel.toString() + "\n");
         }
 
+
         System.out.println("\nLeger:");
 
-        for (Lege lege : legerListe) {
-            System.out.println("    " + lege.toString());
+        Lege[] leger = new Lege[legerListe.stoerrelse()];
+        for (int i =0; i < leger.length; i++) {
+            leger[i] = legerListe.hent(i);
+        } 
+        Arrays.sort(leger);
+        for (int i =0; i < leger.length; i++) {
+            System.out.println("    " + leger[i]);
         }
 
+        
         System.out.println("\n\nResepter:");
 
         for (Resept resept : reseptListe) {
