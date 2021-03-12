@@ -3,5 +3,6 @@ public class TestFiler {
         Legesystem nyttLegesystem= new Legesystem();
         nyttLegesystem.lesInnFraFil("inndata.txt");
         nyttLegesystem.hentOversikt();
+        nyttLegesystem.hentStatistikk();
     }
 }
