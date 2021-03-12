@@ -28,7 +28,7 @@ class Legesystem {
             while (!linje.startsWith("# Legemidler")) {
                 String[] biter = linje.split(",");
                 if (biter.length != 2) throw new UlovligFormat(linje);
-                
+
                 Pasient nyPasient = new Pasient(biter[0], biter[1]);
                 pasientListe.leggTil(nyPasient);
                 linje = fil.nextLine();
@@ -40,7 +40,7 @@ class Legesystem {
             String linje = fil.nextLine();
             while (!linje.startsWith("# Leger")) {
                 String[] biter = linje.split(",");
-                if (biter.length != 4 && biter.length != 5) throw new UlovligFormat(linje);                
+                if (biter.length != 4 && biter.length != 5) throw new UlovligFormat(linje);
                 String navn = biter[0];
                 //for komplekse navn i myeInndata.txt
                 if (navn.contains("/")) navn.replace("/", ",");
@@ -56,7 +56,7 @@ class Legesystem {
                     String tallInt = "";
                     int i = 0;
                     while (!(biter[2].charAt(i) == '.')) {
-                        tallInt = tallInt + biter[2].charAt(i); 
+                        tallInt = tallInt + biter[2].charAt(i);
                         i++;
                         if (i == biter[2].length()) break;
                     }
@@ -104,7 +104,7 @@ class Legesystem {
 
                 if (kontroll == 0) {nyLege = new Lege(navn);}
                 else {nyLege = new Spesialist(navn, kontroll);}
-                
+
                 legerListe.leggTil(nyLege);
 
                 linje = fil.nextLine(); //oppdaterer linje
@@ -121,7 +121,7 @@ class Legesystem {
 
                 String linje = fil.nextLine();
                 String[] biter = linje.split(",");
-                if (biter.length != 4 && biter.length != 5) throw new UlovligFormat(linje);  
+                if (biter.length != 4 && biter.length != 5) throw new UlovligFormat(linje);
 
                 int legemiddelNummer = Integer.parseInt(biter[0]);
                 String legeNavn = biter[1];
@@ -165,8 +165,8 @@ class Legesystem {
         } else {System.out.println("Filformatten for pasienter er ikke riktig."); System.exit(1);}
     }
 
-    
-    
+
+
     public void hentOversikt() {
 
         System.out.println("\nPasienter:");
@@ -188,13 +188,13 @@ class Legesystem {
         Lege[] leger = new Lege[legerListe.stoerrelse()];
         for (int i =0; i < leger.length; i++) {
             leger[i] = legerListe.hent(i);
-        } 
+        }
         Arrays.sort(leger);
         for (int i =0; i < leger.length; i++) {
             System.out.println("    " + leger[i]);
         }
 
-        
+
         System.out.println("\n\nResepter:");
 
         for (Resept resept : reseptListe) {
@@ -202,5 +202,15 @@ class Legesystem {
         }
 
     }
+
+    public void leggTilPasient(Scanner input){
+    // System.out.println("hohho");
+    //
+    // int inp == input;
+    // if (inp.equals(0)){
+    //   for ()
+    //
+    // }
+  }
 
 }
