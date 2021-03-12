@@ -5,7 +5,7 @@ class Legesystem {
     private LenketListe<Pasient> pasientListe = new LenketListe<Pasient>();
     private LenketListe<Legemidler> legemiddelListe = new LenketListe<Legemidler>();
     private LenketListe<Lege> legerListe = new LenketListe<Lege>();
-    private LenketListe<Resept> reseptListe = new LenketListe<Resept>();
+    public LenketListe<Resept> reseptListe = new LenketListe<Resept>();
 
 
     public void lesInnFraFil(String filnavn) throws UlovligFormat, UlovligUtskrift {
@@ -112,7 +112,7 @@ class Legesystem {
                 }
                 //henter ut lege
                 for(Lege lege: legerListe) {
-                    if (lege.hentLege() == legeNavn) utskrevendeLege = lege;
+                    if (lege.hentLege().startsWith(legeNavn)) utskrevendeLege = lege;
                 }
                 //henter ut pasient
                 for(Pasient pasient: pasientListe) {
@@ -120,19 +120,25 @@ class Legesystem {
                 }
 
                        //behandler p-resepter
-                if (biter.length == 4) {nyResept = utskrevendeLege.skrivPResept(naavaerLegemid, naavaerendePasient);}
+                if (type.startsWith("p")) {
+                    nyResept = utskrevendeLege.skrivPResept(naavaerLegemid, naavaerendePasient);
+                    reseptListe.leggTil(nyResept);
+                }
                 else { //behandler andre typer resepter
-                    int reit = Integer.parseInt(biter[4]);
-                    if (type == "hvit") {
+                    if (type.startsWith("hvit")) {
+                        int reit = Integer.parseInt(biter[4]);
                         nyResept = utskrevendeLege.skrivHvitResept(naavaerLegemid, naavaerendePasient, reit);
-                    } else if (type == "blaa") {
+                        reseptListe.leggTil(nyResept);
+                    } else if (type.startsWith("blaa")) {
+                        int reit = Integer.parseInt(biter[4]);
                         nyResept = utskrevendeLege.skrivBlaaResept(naavaerLegemid, naavaerendePasient, reit);
-                    } else if (type == "militaer") {
+                        reseptListe.leggTil(nyResept);
+                    } else if (type.startsWith("militaer")) {
+                        int reit = Integer.parseInt(biter[4]);
                         nyResept = utskrevendeLege.skrivMilitaerResept(naavaerLegemid, naavaerendePasient, reit);
+                        reseptListe.leggTil(nyResept);
                     }
                 }
-
-                reseptListe.leggTil(nyResept);
             }
         } else {System.out.println("Filformatten for pasienter er ikke riktig."); System.exit(1);}
     }
