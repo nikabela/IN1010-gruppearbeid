@@ -213,8 +213,33 @@ class Legesystem {
     // 
     }
 
-    public void leggTilLege() {
-        //code
+    public void leggTilLege(Scanner data) {
+        System.out.println("Skriv inn navn til lege (kun siste navn, uten 'Dr.'):");
+        String navn = data.next();
+        navn = "Dr. " + navn;
+        /*for (Lege lege: legerListe) { //sjekker om navnet finns i systemet
+            if (lege.hentLege().trim() == navn.trim()) {
+                System.out.println("Navnet paa legen er allerede i systemet!");
+                return;
+            }
+        }*/
+        System.out.println("Skriv inn kontrollid (0 hvis vanlig lege):");
+        int kontrollid = data.nextInt();
+        /*for (Lege lege: legerListe) { //sjekker om kontrollID finns i systemet
+            if (kontrollid == 0) continue;
+            else {
+                Spesialist spes = (Spesialist) lege;
+                if (spes.hentKontrollId() == kontrollid) {
+                    System.out.println("Navnet paa legen er allerede i systemet!");
+                    return;
+                }
+            }
+        }*/
+
+        Lege nyLege;
+        if (kontrollid == 0) {nyLege = new Lege(navn);}
+        else {nyLege = new Spesialist(navn, kontrollid);}
+        legerListe.leggTil(nyLege);
     }
 
     public void leggTilResept() {
