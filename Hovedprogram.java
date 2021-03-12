@@ -25,9 +25,16 @@ public class Hovedprogram {
             inp = valg.nextInt();
           }
           if (inp == 9) {startMeny(); in = valg.nextInt();}
-        }
-        else if (in ==2){
-          legesystem.leggTilElementMeny();
+        }else if (in == 2){
+          leggTilElementMeny();
+          int inp = valg.nextInt();
+          while (inp != 0) {
+            if(inp == 1) legesystem.leggTilPasient();
+            else if(inp == 2) legesystem.leggTilLege();
+            else if(inp == 3) legesystem.leggTilResept();
+            else if(inp == 4) legesystem.leggTilLegemiddel();
+          if (inp == 0) {startMeny(); in = valg.nextInt();}
+          }
         }else if(in == 3){
         }else if(in == 4){
         }else if(in == 5){
@@ -53,29 +60,12 @@ public class Hovedprogram {
     }
 
     static void leggTilElementMeny(){
-      // Legesystem legesystem = new Legesystem();
-      // Pasient pasient = new Pasient();
-      // Scanner valg = new Scanner(System.in);
-      // int in = valg.nextInt();
-
       System.out.println("Du faar naa fire valg." + "\n" +
       "For aa legge til en pasient, tast '1'" + "\n" +
       "For aa legge til en lege, tast '2'" +"\n" +
       "For aa legge til en resept, tast '3'"+ "\n" +
       "For aa legge til et legemiddel, tast '4'" + "\n" +
-      "For aa avslutte, tast 0.");
-
-      while (in != 0){
-
-        switch(in) {
-          case 1:
-            legesystem.leggTilPasient();
-            break;
-        }
-        switch (in){
-          case 2:
-        }
-      }
+      "For aa gaa tilbake til start meny, tast 0.");
     }
 
 
