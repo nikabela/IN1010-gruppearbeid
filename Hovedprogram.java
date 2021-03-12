@@ -12,19 +12,19 @@ public class Hovedprogram {
       int in = valg.nextInt();
 
       // selve kommandoloekken
-      while(in != 0){             //her skal programmet hoppe til riktig deloppgave i E
+      while(in != 0){ // her skal programmet hoppe til riktig deloppgave i E
         if(in == 1){
           System.out.println("\n\nEn fullstendig oversikt over pasienter, leger, legemidler og resepter:");
           legesystem.hentOversikt();
 
-          // "gaa-tilbake"-blokken; skal bare kopieres til andre deler av denne if-sjekken naar disse er skrevet ferdig
+          // "gaa-tilbake"-blokken; kan bare kopieres til andre deler av denne if-sjekken naar disse er skrevet ferdig
           System.out.println("Skriv inn 9 for aa gaa tilbake til start meny: ");
           int inp = valg.nextInt();
           while (inp != 9) {
             System.out.println("Ugyldig input!");
             inp = valg.nextInt();
           }
-          if (inp == 9) {startMeny(); in = valg.nextInt();}
+          if (inp == 9) {startMeny(); in = valg.nextInt(); continue;}
         }else if (in == 2){
           leggTilElementMeny();
           int inp = valg.nextInt();
@@ -33,7 +33,11 @@ public class Hovedprogram {
             else if(inp == 2) legesystem.leggTilLege();
             else if(inp == 3) legesystem.leggTilResept();
             else if(inp == 4) legesystem.leggTilLegemiddel();
-          if (inp == 0) {startMeny(); in = valg.nextInt();}
+            else System.out.println("Ugyldig input!");
+            leggTilElementMeny();
+            inp = valg.nextInt();
+          }
+          if (inp == 0) {startMeny(); in = valg.nextInt(); continue;
           }
         }else if(in == 3){
         }else if(in == 4){
@@ -56,16 +60,15 @@ public class Hovedprogram {
       System.out.println("  4: Du kan skrive ut forskjellige former for statistikk"); //peker til deloppgave E6
       System.out.println("  5: Skrive alle data til fil"); //peker til deloppgave E7
       System.out.println("  0: Programmet avslutter.");
-      System.out.println("Skriv inn tall til valget ditt: ");
     }
 
     static void leggTilElementMeny(){
       System.out.println("Du faar naa fire valg." + "\n" +
-      "For aa legge til en pasient, tast '1'" + "\n" +
-      "For aa legge til en lege, tast '2'" +"\n" +
-      "For aa legge til en resept, tast '3'"+ "\n" +
-      "For aa legge til et legemiddel, tast '4'" + "\n" +
-      "For aa gaa tilbake til start meny, tast 0.");
+      "  For aa legge til en pasient, tast '1'" + "\n" +
+      "  For aa legge til en lege, tast '2'" +"\n" +
+      "  For aa legge til en resept, tast '3'"+ "\n" +
+      "  For aa legge til et legemiddel, tast '4'" + "\n" +
+      "  For aa gaa tilbake til start meny, tast 0.");
     }
 
 
