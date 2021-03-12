@@ -50,22 +50,11 @@ class Legesystem {
                 int pris = 0;
 
                 try { //sjekker om prisen er int
-                    pris = Integer.parseInt(biter[2]);
+                    Float tallFloat = Float.parseFloat(biter[2]);
+                    pris = Math.round(tallFloat);
                 } catch (NumberFormatException e) {
-                    // prøver aa omgjoere det til int
-                    String tallInt = "";
-                    int i = 0;
-                    while (!(biter[2].charAt(i) == '.')) {
-                        tallInt = tallInt + biter[2].charAt(i);
-                        i++;
-                        if (i == biter[2].length()) break;
-                    }
-                    try { //sjekker om det var faatt til
-                        pris = Integer.parseInt(tallInt);
-                    } catch (NumberFormatException e1) {
-                        System.out.println("Prisen " + biter[2] + " er ikke en gyldig pris. Elementet skal ikke lagres.");
-                        System.exit(1);
-                    }
+                    System.out.println("Prisen " + biter[2] + " er ikke en gyldig pris. Elementet skal ikke lagres.");
+                    System.exit(1);
                 }
 
                 //om legemiddel er av typen 'vanlig'
