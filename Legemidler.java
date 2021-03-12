@@ -42,7 +42,8 @@ abstract class Legemidler{
 }
   @Override
   public String toString(){
-   return navn+" "+id+" "+pris+" "+mg;
+    return "Navn: " + navn + "\nID nummer: " + id + "\nPris: " + 
+    pris + " kr" + "\nVirkestoff: " + mg + " mg";
   }
 }
 
@@ -50,6 +51,11 @@ class Vanlig extends Legemidler{
 
   public Vanlig (String navn, int pris, double mg) {
   super(navn, pris, mg);
+  }
+
+  @Override
+  public String toString() {
+      return super.toString() + "\nType: vanlig legemiddel";
   }
 }
 
@@ -66,6 +72,11 @@ class Narkotisk extends Legemidler{
   public int hentNarkotiskStyrke(){
     return hvorNarkotisk;
   }
+
+  @Override
+  public String toString() {
+      return super.toString() + "\nType: narkotisk legemiddel" + "\nStyrke: " + hvorNarkotisk + " mg";
+  }
 }
 
 class Vanedannende extends Legemidler {
@@ -79,5 +90,10 @@ class Vanedannende extends Legemidler {
 
   public int hentVanedannendeStyrke(){
     return hvorVanedannende;
+  }
+
+  @Override
+  public String toString() {
+      return super.toString() + "\nType: vanedannende legemiddel" + "\nStyrke: " + hvorVanedannende + " mg";
   }
 }
