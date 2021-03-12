@@ -203,14 +203,26 @@ class Legesystem {
 
     }
 
-    public void leggTilPasient(Scanner input){
+    public void leggTilPasient(){
     // System.out.println("hohho");
     //
     // int inp == input;
     // if (inp.equals(0)){
     //   for ()
     //
-    // }
-  }
+    // 
+    }
+
+    public void leggTilLege() {
+        //code
+    }
+
+    public void leggTilResept() {
+        //code
+    }
+
+    public void leggTilLegemiddel() {
+        //code
+    }
 
 }
