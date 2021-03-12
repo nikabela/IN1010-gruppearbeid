@@ -250,4 +250,26 @@ class Legesystem {
         //code
     }
 
+    //Deloppgave E6:
+    public void hentStatistikk() {
+
+      int antallNarkotiske = 0;
+      int antallVanedannende = 0;
+
+      System.out.println("Reseptliste size: " + reseptListe.stoerrelse() + "\n");
+
+      try {
+        for (int i = 0; i < reseptListe.stoerrelse(); i++) {
+          if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Narkotisk) {
+            antallNarkotiske++;
+          } else if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Vanedannende) {
+            antallVanedannende++;
+          }
+        }
+      } catch(NullPointerException e) {
+        System.out.println("Feil i antallnarkotiske");
+      }
+
+      System.out.println("Antall Narkotiske Resepter: " + antallNarkotiske + "\n");
+      System.out.println("Antall Vanedannende Resepter: " + antallVanedannende + "\n");
 }
