@@ -27,6 +27,7 @@ public class Hovedprogram {
           if (inp == 9) {startMeny(); in = valg.nextInt();}
         }
         else if (in ==2){
+          legesystem.leggTilElementMeny();
         }else if(in == 3){
         }else if(in == 4){
         }else if(in == 5){
@@ -52,6 +53,11 @@ public class Hovedprogram {
     }
 
     static void leggTilElementMeny(){
+      // Legesystem legesystem = new Legesystem();
+      // Pasient pasient = new Pasient();
+      // Scanner valg = new Scanner(System.in);
+      // int in = valg.nextInt();
+
       System.out.println("Du faar naa fire valg." + "\n" +
       "For aa legge til en pasient, tast '1'" + "\n" +
       "For aa legge til en lege, tast '2'" +"\n" +
@@ -62,17 +68,12 @@ public class Hovedprogram {
       while (in != 0){
 
         switch(in) {
-
           case 1:
-
-            leggTilPasient();
+            legesystem.leggTilPasient();
             break;
-
         }
-
         switch (in){
           case 2:
-           
         }
       }
     }
