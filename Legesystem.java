@@ -2,10 +2,10 @@ import java.util.*;
 import java.io.*;
 
 class Legesystem {
-    public LenketListe<Pasient> pasientListe = new LenketListe<Pasient>();
-    public LenketListe<Legemidler> legemiddelListe = new LenketListe<Legemidler>();
-    public LenketListe<Lege> legerListe = new LenketListe<Lege>();
-    public LenketListe<Resept> reseptListe = new LenketListe<Resept>();
+    private LenketListe<Pasient> pasientListe = new LenketListe<Pasient>();
+    private LenketListe<Legemidler> legemiddelListe = new LenketListe<Legemidler>();
+    private LenketListe<Lege> legerListe = new LenketListe<Lege>();
+    private LenketListe<Resept> reseptListe = new LenketListe<Resept>();
 
 
     public void lesInnFraFil(String filnavn) throws UlovligFormat, UlovligUtskrift {
@@ -47,20 +47,20 @@ class Legesystem {
                 double virkestoff = Double.parseDouble(biter[3]);
 
                 //om legemiddel er av typen 'vanlig'
-                if (type == "vanlig") {
+                if (type.startsWith("vanlig")) {
                     Vanlig nyLegemiddel = new Vanlig(navn, pris, virkestoff);
                     legemiddelListe.leggTil(nyLegemiddel);
                 }
 
                 //om legemiddel er av typen 'narkotisk'
-                if (type == "narkotisk") {
+                if (type.startsWith("narkotisk")) {
                     int styrke = Integer.parseInt(biter[4]);
                     Narkotisk nyLegemiddel = new Narkotisk(navn, pris, virkestoff, styrke);
                     legemiddelListe.leggTil(nyLegemiddel);
                 }
 
                 //om legemiddel er av typen 'vanedannende'
-                if (type == "vanedannende") {
+                if (type.startsWith("vanedannende")) {
                     int styrke = Integer.parseInt(biter[4]);
                     Vanedannende nyLegemiddel = new Vanedannende(navn, pris, virkestoff, styrke);
                     legemiddelListe.leggTil(nyLegemiddel);
