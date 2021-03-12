@@ -5,7 +5,7 @@ class Legesystem {
     private LenketListe<Pasient> pasientListe = new LenketListe<Pasient>();
     private LenketListe<Legemidler> legemiddelListe = new LenketListe<Legemidler>();
     private LenketListe<Lege> legerListe = new LenketListe<Lege>();
-    public LenketListe<Resept> reseptListe = new LenketListe<Resept>();
+    private LenketListe<Resept> reseptListe = new LenketListe<Resept>();
 
 
     public void lesInnFraFil(String filnavn) throws UlovligFormat, UlovligUtskrift {
@@ -206,24 +206,25 @@ class Legesystem {
         System.out.print("Skriv inn navn til lege (kun siste navn, uten 'Dr.'): ");
         String navn = data.next().trim();
         navn = "Dr. " + navn;
-        for (Lege lege: legerListe) { //sjekker om navnet finns i systemet
+        System.out.print("Skriv inn kontroll-ID (0 hvis vanlig lege): ");
+        int kontrollid = data.nextInt();
+
+        for (Lege lege: legerListe) { //sjekker om navnet og kontrollID finns i systemet
             if (lege.hentLege().trim().equals(navn)) {
                 System.out.println("Navnet paa legen er allerede i systemet!");
                 return;
             }
-        }
-        System.out.print("Skriv inn kontrollid (0 hvis vanlig lege): ");
-        int kontrollid = data.nextInt();
-        /*for (Lege lege: legerListe) { //sjekker om kontrollID finns i systemet
             if (kontrollid == 0) continue;
             else {
-                Spesialist spes = (Spesialist) lege;
-                if (spes.hentKontrollId() == kontrollid) {
-                    System.out.println("Navnet paa legen er allerede i systemet!");
-                    return;
+                if(lege instanceof Spesialist) {
+                    Spesialist spes = (Spesialist) lege;
+                    if (spes.hentKontrollId() == kontrollid) {
+                        System.out.println("kontroll-ID er allerede i systemet!");
+                        return;
+                    }
                 }
             }
-        }*/
+        }
 
         Lege nyLege;
         if (kontrollid == 0) {nyLege = new Lege(navn);}
@@ -232,13 +233,15 @@ class Legesystem {
         System.out.println("Ny lege er lagt til.");
     }
 
+    public void leggTilLegemiddel(Scanner data) {
+        System.out.print("Skriv inn navn til legemiddel: ");
+        String navn = data.next().trim();
+    }
+
     public void leggTilResept() {
         //code
     }
 
-    public void leggTilLegemiddel() {
-        //code
-    }
 
     //Deloppgave E6:
     public void hentStatistikk() {

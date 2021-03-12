@@ -56,7 +56,7 @@ class Lege implements Comparable<Lege>{
   }
 
   public String toString() {
-    return("Legens navn: " + hentLege());
+    return(hentLege());
   }
 
 }
@@ -67,11 +67,16 @@ class Spesialist extends Lege implements Godkjenningsfritak {
   int kontrollId;
 
   public Spesialist(String navn, int kontroll) {
-  super(navn);
-  kontrollId = kontroll;
+    super(navn);
+    kontrollId = kontroll;
   }
 
   public int hentKontrollId() {
     return kontrollId;
+  }
+
+  @Override
+  public String toString() {
+    return(hentLege() + " (kontroll-ID: " + hentKontrollId() + ")");
   }
 }
