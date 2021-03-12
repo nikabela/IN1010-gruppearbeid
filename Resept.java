@@ -53,7 +53,7 @@ abstract class Resept{
 
   @Override
   public String toString(){
-    return "    Resept-Id :" + reseptId + "\n    Legemiddel: " + legemiddel.hentNavn() + "\n    Utskrivende lege :" + lege + "\n    Pasient: "+  pasient.hentNavn() + "\n    Reit: " + reit;
+    return "    Resept-Id: " + reseptId + "\n    Legemiddel: " + legemiddel.hentNavn() + "\n    Utskrivende lege: " + lege.hentLege() + "\n    Pasient: "+  pasient.hentNavn() + "\n    Reit: " + reit;
   }
 }
 

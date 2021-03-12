@@ -18,21 +18,21 @@ public class Hovedprogram {
           legesystem.hentOversikt();
 
           // "gaa-tilbake"-blokken; kan bare kopieres til andre deler av denne if-sjekken naar disse er skrevet ferdig
-          System.out.println("Skriv inn 0 for aa gaa tilbake til start meny: ");
+          System.out.print("Tast inn 0 for aa gaa tilbake til start meny: ");
           int inp = valg.nextInt();
           while (inp != 0) {
             System.out.println("Ugyldig input!");
             inp = valg.nextInt();
           }
           if (inp == 0) {startMeny(); in = valg.nextInt(); continue;}
-        }else if (in == 2){
+        } else if (in == 2){
           leggTilElementMeny();
           int inp = valg.nextInt();
           while (inp != 0) {
-            if(inp == 1) {legesystem.leggTilPasient(); System.out.println("Ny pasient er legget til.");}
-            else if(inp == 2) {legesystem.leggTilLege(valg); System.out.println("Ny lege er legget til.");}
-            else if(inp == 3) {legesystem.leggTilResept(); System.out.println("Ny resept er legget til.");}
-            else if(inp == 4) {legesystem.leggTilLegemiddel(); System.out.println("Ny legemiddel er legget til.");}
+            if(inp == 1) {legesystem.leggTilPasient(); System.out.println("Ny pasient er lagt til.");}
+            else if(inp == 2) {legesystem.leggTilLege(valg);}
+            else if(inp == 3) {legesystem.leggTilResept(); System.out.println("Ny resept er lagt til.");}
+            else if(inp == 4) {legesystem.leggTilLegemiddel(); System.out.println("Ny legemiddel er lagt til.");}
             else System.out.println("Ugyldig input!");
             leggTilElementMeny();
             inp = valg.nextInt();
@@ -60,6 +60,7 @@ public class Hovedprogram {
       "  4: Du kan skrive ut forskjellige former for statistikk." + "\n" +    //peker til deloppgave E6
       "  5: Skrive alle data til fil." + "\n" +     //peker til deloppgave E7
       "  0: Programmet avslutter.");
+      System.out.print("Tast inn kommandoen: ");
     }
 
     static void leggTilElementMeny(){
@@ -69,6 +70,7 @@ public class Hovedprogram {
       "  For aa legge til en resept, tast '3'"+ "\n" +
       "  For aa legge til et legemiddel, tast '4'" + "\n" +
       "  For aa gaa tilbake til start meny, tast 0.");
+      System.out.print("Tast inn kommandoen: ");
     }
 
 
