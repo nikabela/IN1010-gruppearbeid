@@ -2,10 +2,10 @@ import java.util.*;
 import java.io.*;
 
 class Legesystem {
-    private LenketListe<Pasient> pasientListe = new LenketListe<Pasient>();
-    private LenketListe<Legemidler> legemiddelListe = new LenketListe<Legemidler>();
-    private LenketListe<Lege> legerListe = new LenketListe<Lege>();
-    private LenketListe<Resept> reseptListe = new LenketListe<Resept>();
+    public LenketListe<Pasient> pasientListe = new LenketListe<Pasient>();
+    public LenketListe<Legemidler> legemiddelListe = new LenketListe<Legemidler>();
+    public LenketListe<Lege> legerListe = new LenketListe<Lege>();
+    public LenketListe<Resept> reseptListe = new LenketListe<Resept>();
 
 
     public void lesInnFraFil(String filnavn) throws UlovligFormat, UlovligUtskrift {
@@ -24,20 +24,21 @@ class Legesystem {
         //leser inn pasient-objekter
         String currentHeader = "Pasienter";
         if (fil.nextLine().startsWith("# Pasienter")) {
-            while (!fil.nextLine().startsWith("# Legemidler")) {
-                String linje = fil.nextLine();
+            String linje = fil.nextLine();
+            while (!linje.startsWith("# Legemidler")) {
                 String[] biter = linje.split(",");
                 if (biter.length != 2) throw new UlovligFormat(linje);
                 
                 Pasient nyPasient = new Pasient(biter[0], biter[1]);
                 pasientListe.leggTil(nyPasient);
+                linje = fil.nextLine();
             } currentHeader = "Legemidler"; //bytte header
         } else {System.out.println("Filformatten for pasienter er ikke riktig."); System.exit(1);}
 
         //leser inn legemiddel-objekter
         if (currentHeader == "Legemidler") {
-            while (!fil.nextLine().startsWith("# Leger")) {
-                String linje = fil.nextLine();
+            String linje = fil.nextLine();
+            while (!linje.startsWith("# Leger")) {
                 String[] biter = linje.split(",");
                 if (biter.length != 4 && biter.length != 5) throw new UlovligFormat(linje);                
                 String navn = biter[0];
@@ -64,14 +65,15 @@ class Legesystem {
                     Vanedannende nyLegemiddel = new Vanedannende(navn, pris, virkestoff, styrke);
                     legemiddelListe.leggTil(nyLegemiddel);
                 }
+                linje = fil.nextLine(); //oppdaterer linje
             } currentHeader = "Leger"; //bytte header
         } else {System.out.println("Filformatten for legemidler er ikke riktig."); System.exit(1);}
 
         //leser inn lege-objekter
         if (currentHeader == "Leger") {
-            while (!fil.nextLine().startsWith("# Resepter")) {
+            String linje = fil.nextLine();
+            while (!linje.startsWith("# Resepter")) {
                 Lege nyLege;
-                String linje = fil.nextLine();
                 String[] biter = linje.split(",");
                 if (biter.length != 2) throw new UlovligFormat(linje);
 
@@ -82,6 +84,8 @@ class Legesystem {
                 else {nyLege = new Spesialist(navn, kontroll);}
                 
                 legerListe.leggTil(nyLege);
+
+                linje = fil.nextLine(); //oppdaterer linje
             } currentHeader = "Resepter"; //bytte header
         } else {System.out.println("Filformatten for leger er ikke riktig."); System.exit(1);}
 
