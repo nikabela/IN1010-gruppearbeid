@@ -147,29 +147,29 @@ class Legesystem {
     
     public void hentOversikt() {
 
-      System.out.println("Pasienter: \n");
+        System.out.println("\nPasienter:");
 
-      for (Pasient pasient : pasientListe) {
-        System.out.println(pasient.toString());
-      }
+        for (Pasient pasient : pasientListe) {
+            System.out.println("    "+ pasient.toString());
+        }
 
-      System.out.println("Legemiddler: \n");
+        System.out.println("\n\nLegemiddler:");
 
-      for (Legemidler legemiddel : legemiddelListe) {
-        System.out.println(legemiddel.toString());
-      }
+        for (Legemidler legemiddel : legemiddelListe) {
+            System.out.println(legemiddel.toString() + "\n");
+        }
 
-      System.out.println("Leger: \n");
+        System.out.println("\nLeger:");
 
-      for (Lege lege : legerListe) {
-        System.out.println(lege.toString());
-      }
+        for (Lege lege : legerListe) {
+            System.out.println("    " + lege.toString());
+        }
 
-      System.out.println("Resepter: \n");
+        System.out.println("\n\nResepter:");
 
-      for (Resept resept : reseptListe) {
-        System.out.println(resept.toString());
-      }
+        for (Resept resept : reseptListe) {
+            System.out.println(resept.toString() + "\n");
+        }
 
     }
 
