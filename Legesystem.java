@@ -45,7 +45,7 @@ class Legesystem {
                 //for komplekse navn i myeInndata.txt
                 if (navn.contains("/")) navn.replace("/", ",");
 
-                String type = biter[1];
+                String type = biter[1].trim();
                 double virkestoff = Double.parseDouble(biter[3]);
                 int pris = 0;
 
@@ -69,20 +69,20 @@ class Legesystem {
                 }
 
                 //om legemiddel er av typen 'vanlig'
-                if (type.startsWith("vanlig")) {
+                if (type.equals("vanlig")) {
                     Vanlig nyLegemiddel = new Vanlig(navn, pris, virkestoff);
                     legemiddelListe.leggTil(nyLegemiddel);
                 }
 
                 //om legemiddel er av typen 'narkotisk'
-                if (type.startsWith("narkotisk")) {
+                if (type.equals("narkotisk")) {
                     int styrke = Integer.parseInt(biter[4]);
                     Narkotisk nyLegemiddel = new Narkotisk(navn, pris, virkestoff, styrke);
                     legemiddelListe.leggTil(nyLegemiddel);
                 }
 
                 //om legemiddel er av typen 'vanedannende'
-                if (type.startsWith("vanedannende")) {
+                if (type.equals("vanedannende")) {
                     int styrke = Integer.parseInt(biter[4]);
                     Vanedannende nyLegemiddel = new Vanedannende(navn, pris, virkestoff, styrke);
                     legemiddelListe.leggTil(nyLegemiddel);
@@ -124,9 +124,9 @@ class Legesystem {
                 if (biter.length != 4 && biter.length != 5) throw new UlovligFormat(linje);
 
                 int legemiddelNummer = Integer.parseInt(biter[0]);
-                String legeNavn = biter[1];
+                String legeNavn = biter[1].trim();
                 int pasientID = Integer.parseInt(biter[2]);
-                String type = biter[3];
+                String type = biter[3].trim();
 
                 //henter ut legemiddel
                 for(Legemidler legemiddel: legemiddelListe) {
@@ -134,7 +134,7 @@ class Legesystem {
                 }
                 //henter ut lege
                 for(Lege lege: legerListe) {
-                    if (lege.hentLege().startsWith(legeNavn)) utskrevendeLege = lege;
+                    if (lege.hentLege().equals(legeNavn)) utskrevendeLege = lege;
                 }
                 //henter ut pasient
                 for(Pasient pasient: pasientListe) {
@@ -142,20 +142,20 @@ class Legesystem {
                 }
 
                        //behandler p-resepter
-                if (type.startsWith("p")) {
+                if (type.equals("p")) {
                     nyResept = utskrevendeLege.skrivPResept(naavaerLegemid, naavaerendePasient);
                     reseptListe.leggTil(nyResept);
                 }
                 else { //behandler andre typer resepter
-                    if (type.startsWith("hvit")) {
+                    if (type.equals("hvit")) {
                         int reit = Integer.parseInt(biter[4]);
                         nyResept = utskrevendeLege.skrivHvitResept(naavaerLegemid, naavaerendePasient, reit);
                         reseptListe.leggTil(nyResept);
-                    } else if (type.startsWith("blaa")) {
+                    } else if (type.equals("blaa")) {
                         int reit = Integer.parseInt(biter[4]);
                         nyResept = utskrevendeLege.skrivBlaaResept(naavaerLegemid, naavaerendePasient, reit);
                         reseptListe.leggTil(nyResept);
-                    } else if (type.startsWith("militaer")) {
+                    } else if (type.equals("militaer")) {
                         int reit = Integer.parseInt(biter[4]);
                         nyResept = utskrevendeLege.skrivMilitaerResept(naavaerLegemid, naavaerendePasient, reit);
                         reseptListe.leggTil(nyResept);
@@ -214,16 +214,16 @@ class Legesystem {
     }
 
     public void leggTilLege(Scanner data) {
-        System.out.println("Skriv inn navn til lege (kun siste navn, uten 'Dr.'):");
-        String navn = data.next();
+        System.out.print("Skriv inn navn til lege (kun siste navn, uten 'Dr.'): ");
+        String navn = data.next().trim();
         navn = "Dr. " + navn;
-        /*for (Lege lege: legerListe) { //sjekker om navnet finns i systemet
-            if (lege.hentLege().trim() == navn.trim()) {
+        for (Lege lege: legerListe) { //sjekker om navnet finns i systemet
+            if (lege.hentLege().trim().equals(navn)) {
                 System.out.println("Navnet paa legen er allerede i systemet!");
                 return;
             }
-        }*/
-        System.out.println("Skriv inn kontrollid (0 hvis vanlig lege):");
+        }
+        System.out.print("Skriv inn kontrollid (0 hvis vanlig lege): ");
         int kontrollid = data.nextInt();
         /*for (Lege lege: legerListe) { //sjekker om kontrollID finns i systemet
             if (kontrollid == 0) continue;
@@ -240,6 +240,7 @@ class Legesystem {
         if (kontrollid == 0) {nyLege = new Lege(navn);}
         else {nyLege = new Spesialist(navn, kontrollid);}
         legerListe.leggTil(nyLege);
+        System.out.println("Ny lege er lagt til.");
     }
 
     public void leggTilResept() {
@@ -253,23 +254,24 @@ class Legesystem {
     //Deloppgave E6:
     public void hentStatistikk() {
 
-      int antallNarkotiske = 0;
-      int antallVanedannende = 0;
+        int antallNarkotiske = 0;
+        int antallVanedannende = 0;
 
-      System.out.println("Reseptliste size: " + reseptListe.stoerrelse() + "\n");
+        System.out.println("Reseptliste size: " + reseptListe.stoerrelse() + "\n");
 
-      try {
-        for (int i = 0; i < reseptListe.stoerrelse(); i++) {
-          if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Narkotisk) {
-            antallNarkotiske++;
-          } else if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Vanedannende) {
-            antallVanedannende++;
-          }
+        try {
+            for (int i = 0; i < reseptListe.stoerrelse(); i++) {
+                if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Narkotisk) {
+                    antallNarkotiske++;
+                } else if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Vanedannende) {
+                    antallVanedannende++;
+                }
+            }
+        } catch(NullPointerException e) {
+            System.out.println("Feil i antallnarkotiske");
         }
-      } catch(NullPointerException e) {
-        System.out.println("Feil i antallnarkotiske");
-      }
 
-      System.out.println("Antall Narkotiske Resepter: " + antallNarkotiske + "\n");
-      System.out.println("Antall Vanedannende Resepter: " + antallVanedannende + "\n");
+        System.out.println("Antall Narkotiske Resepter: " + antallNarkotiske + "\n");
+        System.out.println("Antall Vanedannende Resepter: " + antallVanedannende + "\n");
+    }
 }
