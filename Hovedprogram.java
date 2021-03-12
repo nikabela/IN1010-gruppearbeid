@@ -18,21 +18,21 @@ public class Hovedprogram {
           legesystem.hentOversikt();
 
           // "gaa-tilbake"-blokken; kan bare kopieres til andre deler av denne if-sjekken naar disse er skrevet ferdig
-          System.out.println("Skriv inn 9 for aa gaa tilbake til start meny: ");
+          System.out.println("Skriv inn 0 for aa gaa tilbake til start meny: ");
           int inp = valg.nextInt();
-          while (inp != 9) {
+          while (inp != 0) {
             System.out.println("Ugyldig input!");
             inp = valg.nextInt();
           }
-          if (inp == 9) {startMeny(); in = valg.nextInt(); continue;}
+          if (inp == 0) {startMeny(); in = valg.nextInt(); continue;}
         }else if (in == 2){
           leggTilElementMeny();
           int inp = valg.nextInt();
           while (inp != 0) {
-            if(inp == 1) legesystem.leggTilPasient();
-            else if(inp == 2) legesystem.leggTilLege();
-            else if(inp == 3) legesystem.leggTilResept();
-            else if(inp == 4) legesystem.leggTilLegemiddel();
+            if(inp == 1) {legesystem.leggTilPasient(); System.out.println("Ny pasient er legget til.");}
+            else if(inp == 2) {legesystem.leggTilLege(valg); System.out.println("Ny lege er legget til.");}
+            else if(inp == 3) {legesystem.leggTilResept(); System.out.println("Ny resept er legget til.");}
+            else if(inp == 4) {legesystem.leggTilLegemiddel(); System.out.println("Ny legemiddel er legget til.");}
             else System.out.println("Ugyldig input!");
             leggTilElementMeny();
             inp = valg.nextInt();
@@ -53,17 +53,17 @@ public class Hovedprogram {
 
 
     static void startMeny() {
-      System.out.println("Du har foelgende valg:");
-      System.out.println("  1: Du kan skrive ut en fullstendig oversikt over pasienter, leger, legemidler og resepter");  //peker til deloppgave E3
-      System.out.println("  2: Du kan opprette og legge til nye elementer i systemet"); //peker til deloppgave E4
-      System.out.println("  3: Du kan bruke en gitt resept fra listen til en pasient"); //peker til deloppgave E5
-      System.out.println("  4: Du kan skrive ut forskjellige former for statistikk"); //peker til deloppgave E6
-      System.out.println("  5: Skrive alle data til fil"); //peker til deloppgave E7
-      System.out.println("  0: Programmet avslutter.");
+      System.out.println("Start meny. Du har foelgende valg:" + "\n" +
+      "  1: Du kan skrive ut en fullstendig oversikt over pasienter, leger, legemidler og resepter." + "\n" +   //peker til deloppgave E3
+      "  2: Du kan opprette og legge til nye elementer i systemet." +"\n" +   //peker til deloppgave E4
+      "  3: Du kan bruke en gitt resept fra listen til en pasient."+ "\n" +   //peker til deloppgave E5
+      "  4: Du kan skrive ut forskjellige former for statistikk." + "\n" +    //peker til deloppgave E6
+      "  5: Skrive alle data til fil." + "\n" +     //peker til deloppgave E7
+      "  0: Programmet avslutter.");
     }
 
     static void leggTilElementMeny(){
-      System.out.println("Du faar naa fire valg." + "\n" +
+      System.out.println("\nDu faar naa fire valg." + "\n" +
       "  For aa legge til en pasient, tast '1'" + "\n" +
       "  For aa legge til en lege, tast '2'" +"\n" +
       "  For aa legge til en resept, tast '3'"+ "\n" +
