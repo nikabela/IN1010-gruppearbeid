@@ -9,7 +9,7 @@ public class Hovedprogram {
       startMeny(); // kaller paa start meny (se nederst)
 
       Scanner valg = new Scanner(System.in);
-      int in = valg.nextInt();
+      int in = Integer.parseInt(valg.nextLine().trim()); // funker bedre enn nextInt()
 
       // selve kommandoloekken
       while(in != 0){ // her skal programmet hoppe til riktig deloppgave i E
@@ -19,25 +19,25 @@ public class Hovedprogram {
 
           // "gaa-tilbake"-blokken; kan bare kopieres til andre deler av denne if-sjekken naar disse er skrevet ferdig
           System.out.print("Tast inn 0 for aa gaa tilbake til start meny: ");
-          int inp = valg.nextInt();
+          int inp = Integer.parseInt(valg.nextLine().trim());
           while (inp != 0) {
             System.out.println("Ugyldig input!");
-            inp = valg.nextInt();
+            inp = Integer.parseInt(valg.nextLine().trim());
           }
-          if (inp == 0) {startMeny(); in = valg.nextInt(); continue;}
+          if (inp == 0) {startMeny(); in = Integer.parseInt(valg.nextLine().trim()); continue;}
         } else if (in == 2){
           leggTilElementMeny();
-          int inp = valg.nextInt();
+          int inp = Integer.parseInt(valg.nextLine().trim());
           while (inp != 0) {
             if(inp == 1) {legesystem.leggTilPasient(); System.out.println("Ny pasient er lagt til.");}
             else if(inp == 2) {legesystem.leggTilLege(valg);}
             else if(inp == 3) {legesystem.leggTilResept(); System.out.println("Ny resept er lagt til.");}
-            else if(inp == 4) {legesystem.leggTilLegemiddel(valg); System.out.println("Ny legemiddel er lagt til.");}
+            else if(inp == 4) {legesystem.leggTilLegemiddel(valg);}
             else System.out.println("Ugyldig input!");
             leggTilElementMeny();
-            inp = valg.nextInt();
+            inp = Integer.parseInt(valg.nextLine().trim());
           }
-          if (inp == 0) {startMeny(); in = valg.nextInt(); continue;
+          if (inp == 0) {startMeny(); in = Integer.parseInt(valg.nextLine().trim()); continue;
           }
         }else if(in == 3){
         }else if(in == 4){
@@ -64,7 +64,7 @@ public class Hovedprogram {
     }
 
     static void leggTilElementMeny(){
-      System.out.println("\nDu faar naa fire valg." + "\n" +
+      System.out.println("\nDu faar naa fem valg." + "\n" +
       "  For aa legge til en pasient, tast '1'" + "\n" +
       "  For aa legge til en lege, tast '2'" +"\n" +
       "  For aa legge til en resept, tast '3'"+ "\n" +

@@ -4,7 +4,7 @@ import java.io.*;
 class Legesystem {
     private LenketListe<Pasient> pasientListe = new LenketListe<Pasient>();
     private LenketListe<Legemidler> legemiddelListe = new LenketListe<Legemidler>();
-    private LenketListe<Lege> legerListe = new LenketListe<Lege>();
+    private SortertLenkeliste<Lege> legerListe = new SortertLenkeliste<Lege>();
     private LenketListe<Resept> reseptListe = new LenketListe<Resept>();
 
 
@@ -164,25 +164,17 @@ class Legesystem {
             System.out.println("    "+ pasient.toString());
         }
 
-
         System.out.println("\n\nLegemiddler:");
 
         for (Legemidler legemiddel : legemiddelListe) {
             System.out.println(legemiddel.toString() + "\n");
         }
 
-
         System.out.println("\nLeger:");
 
-        Lege[] leger = new Lege[legerListe.stoerrelse()];
-        for (int i =0; i < leger.length; i++) {
-            leger[i] = legerListe.hent(i);
+        for (Lege lege : legerListe) {
+            System.out.println("    " + lege);
         }
-        Arrays.sort(leger);
-        for (int i =0; i < leger.length; i++) {
-            System.out.println("    " + leger[i]);
-        }
-
 
         System.out.println("\n\nResepter:");
 
@@ -235,7 +227,87 @@ class Legesystem {
 
     public void leggTilLegemiddel(Scanner data) {
         System.out.print("Skriv inn navn til legemiddel: ");
-        String navn = data.next().trim();
+        String navn = data.nextLine().trim();                     // data
+
+        System.out.print("Skriv inn type til legemiddel: ");
+        String type = data.next().trim();                         // data
+
+        //sjekker om type er gyldig
+        while (!type.matches("vanlig|narkotisk|vanedannende")) {
+            System.out.println("Ugyldig input! Tast inn eksisterende type.");
+            System.out.print("Skriv inn type til legemiddel: ");
+            type = data.next().trim();
+        }
+
+        System.out.print("Skriv inn pris til legemiddel: ");
+
+        //sjekker om prisen er gyldig
+        while (!data.hasNextInt()) {
+            System.out.println("Ugyldig input! Tast inn integer.");
+            System.out.print("Skriv inn pris til legemiddel: ");
+            data.next().trim();        
+        }
+        int pris = data.nextInt();                                // data
+
+        System.out.print("Skriv inn virkestoff til legemiddel: ");
+        String mg = data.next().trim();
+
+        //sjekker om virkestoff er gyldig
+        while (!mg.matches("([0-9]+\\.[0-9]+)|([0-9]+)")) {
+            System.out.println("Ugyldig input! Tast inn double.");
+            System.out.print("Skriv inn virkestoff til legemiddel: ");
+            mg = data.next().trim();        
+        }
+        double stoff = Double.parseDouble(mg);                    // data
+
+        data.nextLine(); // MAA IKKE FJERNES - tom input linje knyttet til rar Scanner oppfoersel
+
+        int styrke = 0;
+        if (type.matches("narkotisk|vanedannende")) {
+            System.out.print("Skriv inn styrke til legemiddel: ");
+            styrke = Integer.parseInt(data.nextLine().trim());  // data
+
+        }
+
+        for (Legemidler legemid: legemiddelListe) { //sjekker om legemiddelen finns i systemet
+            if (legemid instanceof Vanlig) {
+                if (legemid.hentNavn().equals(navn) && 
+                    (legemid.hentPris() == pris) && (legemid.hentVirkestoff() == stoff)) {
+                    System.out.println("\nLegemiddel er allerede i systemet!");
+                    return;
+                }
+            } else if (legemid instanceof Narkotisk) {
+                Narkotisk nark = (Narkotisk) legemid;
+                if (nark.hentNavn().equals(navn) && (nark.hentPris() == pris) && 
+                    (nark.hentVirkestoff() == stoff) && (nark.hentNarkotiskStyrke() == styrke)) {
+                    System.out.println("\nLegemiddel er allerede i systemet!");
+                    return;
+                }
+            } else if (legemid instanceof Vanedannende) {
+                Vanedannende vaned = (Vanedannende) legemid;
+                if (vaned.hentNavn().equals(navn) && (vaned.hentPris() == pris) && 
+                    (vaned.hentVirkestoff() == stoff) && (vaned.hentVanedannendeStyrke() == styrke)) {
+                    System.out.println("\nLegemiddel er allerede i systemet!");
+                    return;
+                }
+            }
+        }
+
+        Legemidler nyLegemiddel = null;
+        
+        if (type.equals("vanlig")) { //om legemiddel er av typen 'vanlig'
+            nyLegemiddel = new Vanlig(navn, pris, stoff);
+        } else if (type.equals("narkotisk")) { //om legemiddel er av typen 'narkotisk'
+            nyLegemiddel = new Narkotisk(navn, pris, stoff, styrke);
+        } else if (type.equals("vanedannende")) { //om legemiddel er av typen 'vanedannende'
+            nyLegemiddel = new Vanedannende(navn, pris, stoff, styrke);
+        } else {System.out.println("Kunne ikke opprette legemiddel-objekt."); return;}
+
+        legemiddelListe.leggTil(nyLegemiddel);
+
+
+        System.out.println("\nNy legemiddel er lagt til.");
+
     }
 
     public void leggTilResept() {
