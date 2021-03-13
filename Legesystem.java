@@ -343,5 +343,45 @@ class Legesystem {
 
         System.out.println("Antall Narkotiske Resepter: " + antallNarkotiske + "\n");
         System.out.println("Antall Vanedannende Resepter: " + antallVanedannende + "\n");
+        
+  //    System.out.println("Statistikk om mulig misbruk av narkotika.");
+	    System.out.println("\nLeger som har skrevet ut narkotiske legemidler: ");
+
+        for (int i = 0; i < legerListe.stoerrelse(); i++) {
+
+          Lege legeMedNark = legerListe.hent(i);
+          int antallLegeNark = 0;
+          Liste<Resept> tempLegeListe = legeMedNark.hentUtskrevedeResepter();
+
+          for (int j = 0; j < tempLegeListe.stoerrelse(); j++) {
+            if (tempLegeListe.hent(j).hentLegemiddel() instanceof Narkotisk) {
+              antallLegeNark++;
+            }
+          }
+
+          if (antallLegeNark > 0) {       //NARKOTISKE RESEPTEN FINNES IKKE, SÅ HER SKRIVES UT INGEN LEGER!!!
+            System.out.println("Lege " + legeMedNark.hentLege() + " har skrevet ut " + antallLegeNark
+            + " narkotiske legemidler");
+          }
+        }
+
+        System.out.println("\nPasienter med gyldig resept paa narkotiske legemidler: ");
+
+        for (int i = 0; i < pasientListe.stoerrelse(); i++) {
+          Pasient pasMedNark = pasientListe.hent(i);
+          int antallPasMedNark = 0;
+          Liste<Resept> tempPasListe = pasMedNark.hentResepter();
+
+          for (int j = 0; j < tempPasListe.stoerrelse(); j++) {
+            if (tempPasListe.hent(j).hentLegemiddel() instanceof Narkotisk) {
+              antallPasMedNark++;
+            }
+          }
+          if (antallPasMedNark > 0) {        //NARKOTISKE RESEPTEN FINNES IKKE, SÅ HER SKRIVES UT INGEN PASIENTER MED RESEPTER!!!
+            System.out.println("Pasient " + pasMedNark.hentNavn() + " har faatt utskrevet "
+            + antallPasMedNark + " narkotiske resepter");
+          }
+        }
+        System.out.println("\n");
     }
 }
