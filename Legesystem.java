@@ -193,7 +193,7 @@ class Legesystem {
     //
     // 
 
-    //dette burde vaere den siste linjen i hele metoden
+    //dette skulle vaere den siste linjen i hele metoden
     System.out.println("\nNy pasient er lagt til.");
     }
 
@@ -316,7 +316,7 @@ class Legesystem {
     public void leggTilResept(Scanner data) {
         //code
 
-        //dette burde vaere den siste linjen i hele metoden
+        //dette skulle vaere den siste linjen i hele metoden
         System.out.println("\nNy resept er lagt til.");
     }
 
