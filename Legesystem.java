@@ -345,7 +345,7 @@ class Legesystem {
         System.out.println("Antall Vanedannende Resepter: " + antallVanedannende + "\n");
         
   //    System.out.println("Statistikk om mulig misbruk av narkotika.");
-	    System.out.println("\nLeger som har skrevet ut narkotiske legemidler: ");
+	System.out.println("\nLeger som har skrevet ut narkotiske legemidler: ");
 
         for (int i = 0; i < legerListe.stoerrelse(); i++) {
 
