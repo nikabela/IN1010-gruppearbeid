@@ -184,7 +184,7 @@ class Legesystem {
 
     }
 
-    public void leggTilPasient(){
+    public void leggTilPasient(Scanner data){
     // System.out.println("hohho");
     //
     // int inp == input;
@@ -192,6 +192,9 @@ class Legesystem {
     //   for ()
     //
     // 
+
+    //dette burde vaere den siste linjen i hele metoden
+    System.out.println("\nNy pasient er lagt til.");
     }
 
     public void leggTilLege(Scanner data) {
@@ -310,8 +313,11 @@ class Legesystem {
 
     }
 
-    public void leggTilResept() {
+    public void leggTilResept(Scanner data) {
         //code
+
+        //dette burde vaere den siste linjen i hele metoden
+        System.out.println("\nNy resept er lagt til.");
     }
 
 

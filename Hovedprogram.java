@@ -29,9 +29,9 @@ public class Hovedprogram {
           leggTilElementMeny();
           int inp = Integer.parseInt(valg.nextLine().trim());
           while (inp != 0) {
-            if(inp == 1) {legesystem.leggTilPasient(); System.out.println("Ny pasient er lagt til.");}
+            if(inp == 1) {legesystem.leggTilPasient(valg);}
             else if(inp == 2) {legesystem.leggTilLege(valg);}
-            else if(inp == 3) {legesystem.leggTilResept(); System.out.println("Ny resept er lagt til.");}
+            else if(inp == 3) {legesystem.leggTilResept(valg);}
             else if(inp == 4) {legesystem.leggTilLegemiddel(valg);}
             else System.out.println("Ugyldig input!");
             leggTilElementMeny();
