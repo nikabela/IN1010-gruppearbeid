@@ -16,5 +16,5 @@ Dr. Hillestad Lovold,0
 # Resepter (legemiddelNummer,legeNavn,pasientID,type,[reit])
 1,Dr. Cox,2,hvit,7
 2,Dr. Hillestad Lovold,3,blaa,1000
-0,Dr. House,1,millitaer,12
+0,Dr. House,1,militaer,12
 3,Dr. Hillestad Lovold,3,p
