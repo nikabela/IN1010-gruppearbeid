@@ -325,7 +325,7 @@ class Legesystem {
 
       System.out.print("Skriv inn navn på utskrivende lege, Skriv inn navn til lege (kun siste navn, uten 'Dr.'): ");
       String legeNavn = data.nextLine().trim();
-      data.nextLine();
+      // data.nextLine();
       if (!finnesLege(legeNavn)){
         System.out.println("Lege er ikke registrert.");
         return;
@@ -348,11 +348,11 @@ class Legesystem {
           typeLegemiddel = data.next().trim();
       }
 
-      if(!erSpesialist(legeNavn) && typeLegemiddel.equals("narkotisk")){ /*her må du vel egentlig sende med et legeobjekt?*/
+      if(typeLegemiddel.equals("narkotisk") && !erSpesialist(legeNavn) ){ /*her må du vel egentlig sende med et legeobjekt?*/
         System.out.println("wtf");
-        System.out.println("Denne legen er ikke autorisert til å skrive ut legemiddelet.");
+        System.out.println("Denne legen er ikke autorisert til aa skrive ut legemiddelet.");
+        // return; denne må være med
       }
-
 
       System.out.println("Skriv pasientID :");
       int pasientId = data.nextInt();
@@ -404,12 +404,12 @@ class Legesystem {
         resept = new PResept(legemiddel, lege, pasient);
       }
 
-
       pasient.leggTilReseptIStabel(resept);
       reseptListe.leggTil(resept);
 
         //dette skulle vaere den siste linjen i hele metoden
       System.out.println("\nNy resept er lagt til.");
+      // System.out.println("printer reseptliste" + reseptListe);
     }
 
 
@@ -463,13 +463,13 @@ class Legesystem {
 
     private boolean erSpesialist(String legeNavn){
       for (Lege lege : legerListe){
-        if (lege instanceof Spesialist){
+        if (lege.hentLege().equals(legeNavn) && lege instanceof Spesialist){
           return true;
         }
       }
       return false;
     }
-	
+
     public void skrivTilFil() {
 
         FileWriter fileWriter;
@@ -497,7 +497,7 @@ class Legesystem {
                 printWriter.println(legemiddel.hentNavn() + "," + "vanlig" + "," + legemiddel.hentPris() + "," + legemiddel.hentVirkestoff());
                 } else if (legemiddel instanceof Narkotisk) { 						//måtte kaste legemiddel til subklasse for å få tilgang til metodene der
                 printWriter.println(legemiddel.hentNavn() + "," + "narkotisk" + legemiddel.hentPris() + ","
-                + legemiddel.hentVirkestoff() + "," + ((Narkotisk)legemiddel).hentNarkotiskStyrke()); 
+                + legemiddel.hentVirkestoff() + "," + ((Narkotisk)legemiddel).hentNarkotiskStyrke());
                 } else if (legemiddel instanceof Vanedannende) { 					//måtte kaste legemiddel til subklasse for å få tilgang til metodene der
                 printWriter.println(legemiddel.hentNavn() + "," + "vanedannende" + "," + legemiddel.hentPris() + ","
                 + legemiddel.hentVirkestoff() + "," + ((Vanedannende)legemiddel).hentVanedannendeStyrke());
@@ -510,5 +510,5 @@ class Legesystem {
 
 
     } //slutt av skrivTilFil metoden
-	
+
 } //slutt av classen Legesystem
