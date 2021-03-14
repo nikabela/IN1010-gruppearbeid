@@ -452,6 +452,23 @@ class Legesystem {
         }
         return false;
     }
+
+    private boolean finnesLege(String legeNavn) {
+        for (Lege lege : legerListe) {
+            if (lege.hentLege().equals(legeNavn))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean erSpesialist(String legeNavn){
+      for (Lege lege : legerListe){
+        if (lege instanceof Spesialist){
+          return true;
+        }
+      }
+      return false;
+    }
 	
     public void skrivTilFil() {
 
