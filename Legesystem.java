@@ -385,48 +385,45 @@ class Legesystem {
         System.out.println("\n");
     }
 	
-    private void skrivTilFil() {
+    public void skrivTilFil() {
 
-    FileWriter fileWriter;
-    PrintWriter printWriter;
+        FileWriter fileWriter;
+        PrintWriter printWriter;
 
-    try {
-      fileWriter = new FileWriter("skrivtilfil.txt");
-      printWriter = new PrintWriter(fileWriter);
+        try {
+            fileWriter = new FileWriter("skrivtilfil.txt");
+            printWriter = new PrintWriter(fileWriter);
 
-      int i = 0;
+            int i = 0;
 
-      printWriter.println("# Pasienter (navn,fnr)");
-      while (i < pasientListe.stoerrelse()) {
-        Pasient pasient = pasientListe.hent(i);
-        printWriter.println(pasient.hentNavn() + "," + pasient.hentFodselsnr());
-        i++;
-      } //slutt av while løkken
+            printWriter.println("# Pasienter (navn,fnr)");
+            while (i < pasientListe.stoerrelse()) {
+                Pasient pasient = pasientListe.hent(i);
+                printWriter.println(pasient.hentNavn() + "," + pasient.hentFodselsnr());
+                i++;
+            } //slutt av while løkken
 
-      int j = 0;
+            int j = 0;
 
-      printWriter.println("# Legemidler (navn,type,pris,virkestoff,[styrke])");
-      while (j < legemiddelListe.stoerrelse()) {
-        Legemiddel legemiddel = legemiddelListe.hent(j);
-        if (legemiddel instanceof Vanlig) {
-          printWriter.println(legemiddel.hentNavn() + "," + "vanlig" + "," + legemiddel.hentPris() + "," + legemiddel.hentVirkestoff());
-        } else if (legemiddel instanceof Narkotisk) { 						//måtte kaste legemiddel til subklasse for å få tilgang til metodene der
-          printWriter.println(legemiddel.hentNavn() + "," + "narkotisk" + legemiddel.hentPris() + ","
-          + legemiddel.hentVirkestoff() + "," + ((Narkotisk)legemiddel).hentNarkotiskStyrke()); 
-        } else if (legemiddel instanceof Vanedannende) { 					//måtte kaste legemiddel til subklasse for å få tilgang til metodene der
-          printWriter.println(legemiddel.hentNavn() + "," + "vanedannende" + "," + legemiddel.hentPris() + ","
-          + legemiddel.hentVirkestoff() + "," + ((Vanedannende)legemiddel).hentVanedannendeStyrke());
-        }
-        j++;
-      } //slutt av while løkken
-
-
-
-    } catch (IOException e) {
-      System.out.println(e);
-    }  //slutt av catch
+            printWriter.println("# Legemidler (navn,type,pris,virkestoff,[styrke])");
+            while (j < legemiddelListe.stoerrelse()) {
+                Legemidler legemiddel = legemiddelListe.hent(j);
+                if (legemiddel instanceof Vanlig) {
+                printWriter.println(legemiddel.hentNavn() + "," + "vanlig" + "," + legemiddel.hentPris() + "," + legemiddel.hentVirkestoff());
+                } else if (legemiddel instanceof Narkotisk) { 						//måtte kaste legemiddel til subklasse for å få tilgang til metodene der
+                printWriter.println(legemiddel.hentNavn() + "," + "narkotisk" + legemiddel.hentPris() + ","
+                + legemiddel.hentVirkestoff() + "," + ((Narkotisk)legemiddel).hentNarkotiskStyrke()); 
+                } else if (legemiddel instanceof Vanedannende) { 					//måtte kaste legemiddel til subklasse for å få tilgang til metodene der
+                printWriter.println(legemiddel.hentNavn() + "," + "vanedannende" + "," + legemiddel.hentPris() + ","
+                + legemiddel.hentVirkestoff() + "," + ((Vanedannende)legemiddel).hentVanedannendeStyrke());
+                }
+                j++;
+            } //slutt av while løkken
+        } catch (IOException e) {
+            System.out.println(e);
+        }  //slutt av catch
 
 
-  } //slutt av skrivTilFil metoden
+    } //slutt av skrivTilFil metoden
 	
 } //slutt av classen Legesystem
