@@ -7,7 +7,7 @@ class Legesystem {
     private SortertLenkeliste<Lege> legerListe = new SortertLenkeliste<Lege>();
     private LenketListe<Resept> reseptListe = new LenketListe<Resept>();
 
-
+    // Deloppgave E1
     public void lesInnFraFil(String filnavn) throws UlovligFormat, UlovligUtskrift {
         Scanner fil = null;
 
@@ -155,7 +155,7 @@ class Legesystem {
     }
 
 
-
+    // Deloppgave E3
     public void hentOversikt() {
 
         System.out.println("\nPasienter:");
@@ -184,6 +184,8 @@ class Legesystem {
 
     }
 
+
+    // Deloppgave E4
     public void leggTilPasient(Scanner data){
 
       System.out.println("Skriv inn pasientens navn");
@@ -412,31 +414,7 @@ class Legesystem {
       System.out.println("\nNy resept er lagt til.");
     }
 
-
-    //Deloppgave E6:
-    public void hentStatistikk() {
-
-        int antallNarkotiske = 0;
-        int antallVanedannende = 0;
-
-        System.out.println("Reseptliste size: " + reseptListe.stoerrelse() + "\n");
-
-        try {
-            for (int i = 0; i < reseptListe.stoerrelse(); i++) {
-                if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Narkotisk) {
-                    antallNarkotiske++;
-                } else if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Vanedannende) {
-                    antallVanedannende++;
-                }
-            }
-        } catch(NullPointerException e) {
-            System.out.println("Feil i antallnarkotiske");
-        }
-
-        System.out.println("Antall Narkotiske Resepter: " + antallNarkotiske + "\n");
-        System.out.println("Antall Vanedannende Resepter: " + antallVanedannende + "\n");
-    }
-
+    
     private boolean finnesLegemiddel(int id) {
         for (Legemidler legemiddel : legemiddelListe) {
             if (legemiddel.hentId() == id)
@@ -470,6 +448,36 @@ class Legesystem {
       return false;
     }
 	
+
+    // Deloppgave E5
+
+
+    // Deloppgave E6
+    public void hentStatistikk() {
+
+        int antallNarkotiske = 0;
+        int antallVanedannende = 0;
+
+        System.out.println("Reseptliste size: " + reseptListe.stoerrelse() + "\n");
+
+        try {
+            for (int i = 0; i < reseptListe.stoerrelse(); i++) {
+                if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Narkotisk) {
+                    antallNarkotiske++;
+                } else if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Vanedannende) {
+                    antallVanedannende++;
+                }
+            }
+        } catch(NullPointerException e) {
+            System.out.println("Feil i antallnarkotiske");
+        }
+
+        System.out.println("Antall Narkotiske Resepter: " + antallNarkotiske + "\n");
+        System.out.println("Antall Vanedannende Resepter: " + antallVanedannende + "\n");
+    }
+
+    
+    // Deloppgave E7
     public void skrivTilFil() {
 
         FileWriter fileWriter;
