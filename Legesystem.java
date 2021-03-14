@@ -211,14 +211,15 @@ class Legesystem {
     // Deloppgave E4
     public void leggTilPasient(Scanner data){
 
-      System.out.println("Skriv inn pasientens navn");
+      System.out.print("Skriv inn pasientens navn: ");
       String navn = data.nextLine().trim();
-      System.out.println("Skriv inn pasientens personummer");
-      String personNr = data.next().trim();
+      System.out.print("Skriv inn pasientens personummer: ");
+      String personNr = data.nextLine().trim();
+
+      //sjekker om personNr er int
+      personNr = erInt(data, personNr, "Skriv inn pasientens personummer: ");
 
       for (Pasient pasient: pasientListe){
-        System.out.println("checking");
-        System.out.println(pasientListe);
         if (pasient.hentNavn().trim().equals(navn) && pasient.hentFodselsnr().trim().equals(personNr)){
           System.out.println("Personen finnes allerede i systemet!");
           return;
@@ -227,15 +228,20 @@ class Legesystem {
       Pasient nyPasient = new Pasient(navn, personNr);
       pasientListe.leggTil(nyPasient);
       System.out.println("\nNy pasient er lagt til.");
-      System.out.println(pasientListe);
     }
 
     public void leggTilLege(Scanner data) {
         System.out.print("Skriv inn navn til lege (kun siste navn, uten 'Dr.'): ");
-        String navn = data.next().trim();
+        String navn = data.nextLine().trim();
         navn = "Dr. " + navn;
         System.out.print("Skriv inn kontroll-ID (0 hvis vanlig lege): ");
-        int kontrollid = data.nextInt();
+        String kontroll = data.nextLine().trim();
+
+        //sjekker om kontrollID er int
+        kontroll = erInt(data, kontroll, "Skriv inn kontroll-ID (0 hvis vanlig lege): ");
+
+        int kontrollid = Integer.parseInt(kontroll);
+
 
         for (Lege lege: legerListe) { //sjekker om navnet og kontrollID finns i systemet
             if (lege.hentLege().trim().equals(navn)) {
@@ -262,41 +268,36 @@ class Legesystem {
     }
 
     public void leggTilLegemiddel(Scanner data) {
-        System.out.print("Skriv inn navn til legemiddel: ");
+        System.out.print("Skriv inn navn paa legemiddel: ");
         String navn = data.nextLine().trim();                     // data
 
-        System.out.print("Skriv inn type til legemiddel: ");
-        String type = data.next().trim();                         // data
+        System.out.print("Skriv inn type paa legemiddel: ");
+        String type = data.nextLine().trim();                         // data
 
         //sjekker om type er gyldig
         while (!type.matches("vanlig|narkotisk|vanedannende")) {
             System.out.println("Ugyldig input! Tast inn eksisterende type.");
-            System.out.print("Skriv inn type til legemiddel: ");
-            type = data.next().trim();
+            System.out.print("Skriv inn type paa legemiddel: ");
+            type = data.nextLine().trim();
         }
 
-        System.out.print("Skriv inn pris til legemiddel: ");
+        System.out.print("Skriv inn pris paa legemiddel: ");
+        String prisString = data.nextLine().trim();
 
         //sjekker om prisen er gyldig
-        while (!data.hasNextInt()) {
-            System.out.println("Ugyldig input! Tast inn integer.");
-            System.out.print("Skriv inn pris til legemiddel: ");
-            data.next().trim();
-        }
-        int pris = data.nextInt();                                // data
+        prisString = erInt(data, prisString, "Skriv inn pris paa legemiddel: ");
+
+        int pris = Integer.parseInt(prisString);                   // data
 
         System.out.print("Skriv inn virkestoff til legemiddel: ");
-        String mg = data.next().trim();
+        String mg = data.nextLine().trim();
 
         //sjekker om virkestoff er gyldig
-        while (!mg.matches("([0-9]+\\.[0-9]+)|([0-9]+)")) {
-            System.out.println("Ugyldig input! Tast inn double.");
-            System.out.print("Skriv inn virkestoff til legemiddel: ");
-            mg = data.next().trim();
-        }
+        mg = erDouble(data, mg, "Skriv inn virkestoff til legemiddel: ");
+
         double stoff = Double.parseDouble(mg);                    // data
 
-        data.nextLine(); // MAA IKKE FJERNES - tom input linje knyttet til rar Scanner oppfoersel
+        //data.nextLine(); // MAA IKKE FJERNES - tom input linje knyttet til rar Scanner oppfoersel
 
         int styrke = 0;
         if (type.matches("narkotisk|vanedannende")) {
@@ -348,93 +349,125 @@ class Legesystem {
 
     public void leggTilResept(Scanner data) {
 
-      System.out.print("Skriv inn navn på utskrivende lege, Skriv inn navn til lege (kun siste navn, uten 'Dr.'): ");
-      String legeNavn = data.nextLine().trim();
-      // data.nextLine();
-      if (!finnesLege(legeNavn)){
-        System.out.println("Lege er ikke registrert.");
-        return;
-      }
+        System.out.print("Skriv inn navn på utskrivende lege (kun siste navn, uten 'Dr.'): ");
+        String legeNavn = "Dr. " + data.nextLine().trim();
 
-      System.out.println("Skriv legemiddel-id :");
-      int legemiddelId = data.nextInt();
-      if(!finnesLegemiddel(legemiddelId)){
-        System.out.println("heiii");
-        System.out.println("Legemiddelet finnes ikke.");
-        return;
-      }
-      // System.out.print("Skriv inn navnet på legemiddelet: ");
-      // String legemiddelNavn = data.nextLine().trim();
-      System.out.println("Skriv inn hvilken type legemiddelet er (vanlig, vanedannende eller narkotisk)");
-      String typeLegemiddel = data.next().trim();
-      while (!typeLegemiddel.matches("vanlig|narkotisk|vanedannende")) {
-          System.out.println("Ugyldig input! Tast inn eksisterende type.");
-          System.out.print("Skriv inn type til legemiddel: ");
-          typeLegemiddel = data.next().trim();
-      }
-
-      if(typeLegemiddel.equals("narkotisk") && !erSpesialist(legeNavn) ){ /*her må du vel egentlig sende med et legeobjekt?*/
-        System.out.println("wtf");
-        System.out.println("Denne legen er ikke autorisert til aa skrive ut legemiddelet.");
-        // return; denne må være med
-      }
-
-      System.out.println("Skriv pasientID :");
-      int pasientId = data.nextInt();
-      if (!finnesPasient(pasientId)){
-        System.out.println("fuuuu");
-        System.out.println("Pasienten er ikke registrert.");
-        return;
-      }
-
-      System.out.println("Hvilken type skal resepten være? Svar p-resept, militaer eller blaa.");
-      String reseptType = data.next().trim();
-      while (!reseptType.matches("p-resept|militaer|blaa")) {
-          System.out.println("Ugyldig input! Tast inn eksisterende type.");
-          System.out.print("Skriv inn type til legemiddel: ");
-          reseptType = data.next().trim();
-      }
-      System.out.println("Hvor mange reit skal resepten ha?");
-      int reit = data.nextInt();
-      // System.out.println("Skriv navnet på pasienten.");
-      // String pasientNavn = data.nextLine().trim();
-
-      Resept resept = null;
-
-      Legemidler legemiddel = null;
-      for (Legemidler l: legemiddelListe){
-        if (l.hentId() == legemiddelId){
-          legemiddel = l;
+        if (!finnesLege(legeNavn)){
+          System.out.println("Lege er ikke registrert.");
+          return;
         }
-      }
-      // Pasient pasient = pasient.hentNavn().hentFodselsnr();
-      Pasient pasient = null;
-      for (Pasient p : pasientListe){
-        if (p.hentPasientId() == pasientId){
-          pasient = p;
+  
+        System.out.print("Skriv legemiddel-id: ");
+        String lgmdlID = data.nextLine().trim();
+
+        lgmdlID = erInt(data, lgmdlID, "Skriv legemiddel-id: ");
+        int legemiddelId = Integer.parseInt(lgmdlID);
+
+        if(!finnesLegemiddel(legemiddelId)){
+          System.out.println("\nheiii");
+          System.out.println("Legemiddelet finnes ikke.");
+          return;
         }
-      }
+        
+        // Dette trenger vi vel ikke, tror jeg, fordi vi allerede vet type paa legemiddelet fra foer
+        /*System.out.println("Skriv inn hvilken type legemiddelet er (vanlig, vanedannende eller narkotisk)");
+        String typeLegemiddel = data.nextLine().trim();
+        while (!typeLegemiddel.matches("vanlig|narkotisk|vanedannende")) {
+            System.out.println("Ugyldig input! Tast inn eksisterende type.");
+            System.out.print("Skriv inn type til legemiddel: ");
+            typeLegemiddel = data.nextLine().trim();
+        }*/
 
-       Lege lege = null;
-       for (Lege l : legerListe) {
-           if (l.hentLege().equals(legeNavn)) /*skal det ikke være en parantes her??*/
-               lege = l;
-             }
+        System.out.print("Skriv pasientID: ");
+        String pasID = data.nextLine().trim();
+        pasID = erInt(data, pasID, "Skriv pasientID: ");
+        int pasientId = Integer.parseInt(pasID);
 
-      if (reseptType.equals("blaa")){
-        resept = new BlaaResept(legemiddel, lege, pasient, reit);
-      } else if(reseptType.equals("militaer")){
-        resept = new Militaer(legemiddel, lege, pasient, reit);
-      } else if(reseptType.equals("p-resept")){
-        resept = new PResept(legemiddel, lege, pasient);
-      }
+        if (!finnesPasient(pasientId)){
+          System.out.println("\nfuuuu");
+          System.out.println("Pasienten er ikke registrert.");
+          return;
+        }
+  
+        System.out.print("Hvilken type skal resepten være (p-resept, militaer eller blaa): ");
+        String reseptType = data.nextLine().trim();
+        while (!reseptType.matches("p-resept|militaer|blaa")) {
+            System.out.println("Ugyldig input! Tast inn eksisterende type.");
+            System.out.print("Hvilken type skal resepten være (p-resept, militaer eller blaa): ");
+            reseptType = data.nextLine().trim();
+        }
 
-      pasient.leggTilReseptIStabel(resept);
-      reseptListe.leggTil(resept);
+        int reit = 3;
+        if (!reseptType.equals("p-resept")) {
+            System.out.print("Hvor mange reit skal resepten ha: ");
+            String rt = data.nextLine().trim();
+            rt = erInt(data, rt, "Hvor mange reit skal resepten ha: ");
+            reit = Integer.parseInt(rt);
+        }
+  
+        Resept resept = null;
 
+        Legemidler legemiddel = null;
+        for (Legemidler l: legemiddelListe){
+          if (l.hentId() == legemiddelId){
+            legemiddel = l;
+          }
+        }
+
+        Pasient pasient = null;
+        for (Pasient p : pasientListe){
+          if (p.hentPasientId() == pasientId){
+            pasient = p;
+          }
+        }
+  
+        Lege lege = null;
+        for (Lege l : legerListe) {
+            if (l.hentLege().equals(legeNavn)) lege = l;
+        }
+             
+        if((legemiddel instanceof Narkotisk) && !(lege instanceof Spesialist) ){
+          System.out.println("\nwtf");
+          System.out.println("Denne legen er ikke autorisert til aa skrive ut legemiddelet.");
+          return;
+        }
+  
+        if (reseptType.equals("blaa")){
+          resept = new BlaaResept(legemiddel, lege, pasient, reit);
+        } else if(reseptType.equals("militaer")){
+          resept = new Militaer(legemiddel, lege, pasient, reit);
+        } else if(reseptType.equals("p-resept")){
+          resept = new PResept(legemiddel, lege, pasient);
+        } else {
+            System.out.println("Resepttypen finns ikke i systemet. Avslutter.");
+        }
+  
+        pasient.leggTilReseptIStabel(resept);
+        reseptListe.leggTil(resept);
+  
         //dette skulle vaere den siste linjen i hele metoden
-      System.out.println("\nNy resept er lagt til.");
-      // System.out.println("printer reseptliste" + reseptListe);
+        System.out.println("\nNy resept er lagt til.");
+    }
+  
+      
+    // Det var bestemt for aa bruke egne sjekk-metoder i stedet for nextInt() og nextDouble() i Scanner, 
+    // fordi next(), nextInt() og nextDouble() kombinerer ikke godt med nextLine. 
+    private String erInt(Scanner data, String input, String outputLinje) {
+        while (!input.matches("([0-9]+)")) {
+            System.out.println("Ugyldig input! Tast inn integer.");
+            System.out.print(outputLinje);
+            input = data.nextLine().trim();
+        }
+        return input;
+    }
+
+    private String erDouble(Scanner data, String input, String outputLinje) {
+        while (!input.matches("([0-9]+\\.[0-9]+)|([0-9]+)")) {
+            System.out.println("Ugyldig input! Tast inn double.");
+            System.out.print(outputLinje);
+            input = data.nextLine().trim();
+        }
+        return input;
     }
 
 
@@ -462,15 +495,96 @@ class Legesystem {
         return false;
     }
 
-    private boolean erSpesialist(String legeNavn){
+    /*private boolean erSpesialist(String legeNavn){
       for (Lege lege : legerListe){
         if (lege.hentLege().equals(legeNavn) && lege instanceof Spesialist){
           return true;
         }
       }
       return false;
+    }*/
+
+
+    // Deloppgave E5
+    public void brukResept(Scanner inputHeltall) {
+
+        System.out.println("Hvilken pasient vil du se resepter for?");
+        // for-løkke som printer ut alle pasienter med info
+        for (Pasient pasient : pasientListe) {
+            System.out.println("    "+ pasient.toString());
+        }
+    
+        //System.out.println("Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
+    
+    // ta input (integer) for indeks som er pasientens id;
+        //Scanner inputHeltall = new Scanner(System.in); // trenger ikke aa opprette en ny scanner - skaper problemer
+        System.out.print("Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
+
+        String pasID = inputHeltall.nextLine().trim();
+        // tester at inputen er faktisk int (se erInt oppe)
+        pasID = erInt(inputHeltall, pasID, "Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
+        int pasientID = Integer.parseInt(pasID);
+        System.out.println("Valgt pasient: ");
+    
+        // presenterer på nytt denne pasientens info
+        Pasient pasient = pasientListe.hent(pasientID);
+        System.out.println(pasient.hentNavn() + " " + pasient.hentFodselsnr());
+    
+        System.out.println("Hvilken resept vil du bruke?");
+    
+        // presenter resepter på pasienten
+    for (Resept resept : pasient.hentResepter()) {
+    System.out.println(resept.hentReseptId() + " " + resept.hentLegemiddel().hentNavn() + " (" + resept.hentReit() + " reit)");
+    }
+    
+        // ta input (integer) for indeks for å velge legemiddel
+    //Scanner inputHeltallResept = new Scanner(System.in); // trenger ikke aa opprette en ny scanner - skaper problemer
+    System.out.print("Oppgi et gyldig heltall som vist fra reseptlisten: ");
+    String resID = inputHeltall.nextLine().trim();
+
+    // tester at inputen er faktisk int (se erInt oppe)
+    resID = erInt(inputHeltall, resID, "Oppgi et gyldig heltall som vist fra pasientlisten: ");
+    int reseptID = Integer.parseInt(resID);
+
+    // henter valgt resept 
+    Resept resept = pasient.hentResepter().hent(reseptID);
+    System.out.println("Bruker nå valgt resept med resept ID: " + reseptID);
+    
+        // bruk metoden bruk() for å bruke resepten
+    if (resept.bruk()) { 
+    System.out.println("Brukte resept paa " + resept.hentLegemiddel().hentNavn() + "." + " " + "Antall gjenvaerende reit: " + resept.hentReit());
+    } else { 
+    System.out.println("Kunne ikke bruke resept paa " + resept.hentLegemiddel().hentNavn() + " " + "(ingen gjenvaerende reit)." );
+    }
+    
     }
 
+    // Deloppgave E6
+    public void hentStatistikk() {
+
+        int antallNarkotiske = 0;
+        int antallVanedannende = 0;
+
+        System.out.println("  Antall resepter: " + reseptListe.stoerrelse());
+
+        try {
+            for (int i = 0; i < reseptListe.stoerrelse(); i++) {
+                if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Narkotisk) {
+                    antallNarkotiske++;
+                } else if (reseptListe.hent(i) != null && reseptListe.hent(i).hentLegemiddel() instanceof Vanedannende) {
+                    antallVanedannende++;
+                }
+            }
+        } catch(NullPointerException e) {
+            System.out.println("Feil i antallnarkotiske");
+        }
+
+        System.out.println("  Antall narkotiske resepter: " + antallNarkotiske);
+        System.out.println("  Antall vanedannende resepter: " + antallVanedannende + "\n");
+    }
+
+
+    // Deloppgave E7
     public void skrivTilFil() {
 
         FileWriter fileWriter;
