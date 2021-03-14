@@ -4,5 +4,7 @@ public class TestFiler {
         nyttLegesystem.lesInnFraFil("inndata.txt");
         nyttLegesystem.hentOversikt();
         nyttLegesystem.hentStatistikk();
+        nyttLegesystem.skrivTilFil();
+
     }
 }
