@@ -177,7 +177,7 @@ class Legesystem {
                             nyResept = utskrevendeLege.skrivMilitaerResept(naavaerLegemid, naavaerendePasient, reit);
                         }
                         reseptListe.leggTil(nyResept);
-                    }
+                    } else {System.out.println("Resepttypen " + type + "finns ikke i systemet. Avslutter."); System.exit(1);}
                 }
             }
         } else {System.out.println("Filformatten for pasienter er ikke riktig."); System.exit(1);}
