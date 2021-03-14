@@ -29,7 +29,7 @@ class Legesystem {
                 String[] biter = linje.split(",");
                 if (biter.length != 2) throw new UlovligFormat(linje);
 
-                Pasient nyPasient = new Pasient(biter[0], biter[1]);
+                Pasient nyPasient = new Pasient(biter[0].trim(), biter[1].trim());
                 pasientListe.leggTil(nyPasient);
                 linje = fil.nextLine();
             } currentHeader = "Legemidler"; //bytte header
@@ -46,11 +46,11 @@ class Legesystem {
                 if (navn.contains("/")) navn.replace("/", ",");
 
                 String type = biter[1].trim();
-                double virkestoff = Double.parseDouble(biter[3]);
+                double virkestoff = Double.parseDouble(biter[3].trim());
                 int pris = 0;
 
                 try { //sjekker om prisen er int
-                    Float tallFloat = Float.parseFloat(biter[2]);
+                    Float tallFloat = Float.parseFloat(biter[2].trim());
                     pris = Math.round(tallFloat);
                 } catch (NumberFormatException e) {
                     System.out.println("Prisen " + biter[2] + " er ikke en gyldig pris. Elementet skal ikke lagres.");
@@ -65,14 +65,14 @@ class Legesystem {
 
                 //om legemiddel er av typen 'narkotisk'
                 if (type.equals("narkotisk")) {
-                    int styrke = Integer.parseInt(biter[4]);
+                    int styrke = Integer.parseInt(biter[4].trim());
                     Narkotisk nyLegemiddel = new Narkotisk(navn, pris, virkestoff, styrke);
                     legemiddelListe.leggTil(nyLegemiddel);
                 }
 
                 //om legemiddel er av typen 'vanedannende'
                 if (type.equals("vanedannende")) {
-                    int styrke = Integer.parseInt(biter[4]);
+                    int styrke = Integer.parseInt(biter[4].trim());
                     Vanedannende nyLegemiddel = new Vanedannende(navn, pris, virkestoff, styrke);
                     legemiddelListe.leggTil(nyLegemiddel);
                 }
@@ -88,8 +88,8 @@ class Legesystem {
                 String[] biter = linje.split(",");
                 if (biter.length != 2) throw new UlovligFormat(linje);
 
-                String navn = biter[0];
-                int kontroll = Integer.parseInt(biter[1]);
+                String navn = biter[0].trim();
+                int kontroll = Integer.parseInt(biter[1].trim());
 
                 if (kontroll == 0) {nyLege = new Lege(navn);}
                 else {nyLege = new Spesialist(navn, kontroll);}
@@ -104,6 +104,7 @@ class Legesystem {
         if (currentHeader == "Resepter") {
             while (fil.hasNextLine()) {
                 Lege utskrevendeLege = null;
+                Spesialist spesLege = null;
                 Pasient naavaerendePasient = null;
                 Legemidler naavaerLegemid = null;
                 Resept nyResept = null;
@@ -112,22 +113,38 @@ class Legesystem {
                 String[] biter = linje.split(",");
                 if (biter.length != 4 && biter.length != 5) throw new UlovligFormat(linje);
 
-                int legemiddelNummer = Integer.parseInt(biter[0]);
+                int legemiddelNummer = Integer.parseInt(biter[0].trim());
                 String legeNavn = biter[1].trim();
-                int pasientID = Integer.parseInt(biter[2]);
+                int pasientID = Integer.parseInt(biter[2].trim());
                 String type = biter[3].trim();
 
                 //henter ut legemiddel
                 for(Legemidler legemiddel: legemiddelListe) {
                     if (legemiddel.hentId() == legemiddelNummer) naavaerLegemid = legemiddel;
+                } 
+                if (naavaerLegemid == null) {
+                    System.out.println("Legemiddelet med id " + legemiddelNummer + " er ikke i systemet.");
+                    System.exit(1);
                 }
                 //henter ut lege
                 for(Lege lege: legerListe) {
-                    if (lege.hentLege().equals(legeNavn)) utskrevendeLege = lege;
+                    if (lege.hentLege().equals(legeNavn)) {
+                        utskrevendeLege = lege;
+                        if (utskrevendeLege instanceof Spesialist) {spesLege = (Spesialist) utskrevendeLege;}
+                        //else {Lege spesLege = utskrevendeLege;}
+                    }
                 }
+                if (utskrevendeLege == null) {
+                    System.out.println("Legen " + utskrevendeLege + " er ikke i systemet.");
+                    System.exit(1);
+                } else 
                 //henter ut pasient
                 for(Pasient pasient: pasientListe) {
                     if (pasient.hentPasientId() == pasientID) naavaerendePasient = pasient;
+                }
+                if (naavaerendePasient == null) {
+                    System.out.println("Legemiddelet med id " + naavaerendePasient + " er ikke i systemet.");
+                    System.exit(1);
                 }
 
                        //behandler p-resepter
@@ -137,16 +154,28 @@ class Legesystem {
                 }
                 else { //behandler andre typer resepter
                     if (type.equals("hvit")) {
-                        int reit = Integer.parseInt(biter[4]);
-                        nyResept = utskrevendeLege.skrivHvitResept(naavaerLegemid, naavaerendePasient, reit);
+                        int reit = Integer.parseInt(biter[4].trim());
+                        if (utskrevendeLege instanceof Spesialist) {
+                            nyResept = spesLege.skrivHvitResept(naavaerLegemid, naavaerendePasient, reit);
+                        } else {
+                            nyResept = utskrevendeLege.skrivHvitResept(naavaerLegemid, naavaerendePasient, reit);
+                        }
                         reseptListe.leggTil(nyResept);
                     } else if (type.equals("blaa")) {
-                        int reit = Integer.parseInt(biter[4]);
-                        nyResept = utskrevendeLege.skrivBlaaResept(naavaerLegemid, naavaerendePasient, reit);
+                        int reit = Integer.parseInt(biter[4].trim());
+                        if (utskrevendeLege instanceof Spesialist) {
+                            nyResept = spesLege.skrivBlaaResept(naavaerLegemid, naavaerendePasient, reit);
+                        } else {
+                            nyResept = utskrevendeLege.skrivBlaaResept(naavaerLegemid, naavaerendePasient, reit);
+                        }
                         reseptListe.leggTil(nyResept);
                     } else if (type.equals("militaer")) {
-                        int reit = Integer.parseInt(biter[4]);
-                        nyResept = utskrevendeLege.skrivMilitaerResept(naavaerLegemid, naavaerendePasient, reit);
+                        int reit = Integer.parseInt(biter[4].trim());
+                        if (utskrevendeLege instanceof Spesialist) {
+                            nyResept = spesLege.skrivMilitaerResept(naavaerLegemid, naavaerendePasient, reit);
+                        } else {
+                            nyResept = utskrevendeLege.skrivMilitaerResept(naavaerLegemid, naavaerendePasient, reit);
+                        }
                         reseptListe.leggTil(nyResept);
                     }
                 }
@@ -414,7 +443,7 @@ class Legesystem {
       System.out.println("\nNy resept er lagt til.");
     }
 
-    
+
     private boolean finnesLegemiddel(int id) {
         for (Legemidler legemiddel : legemiddelListe) {
             if (legemiddel.hentId() == id)
