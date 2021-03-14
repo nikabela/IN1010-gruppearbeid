@@ -150,35 +150,29 @@ class Legesystem {
                        //behandler p-resepter
                 if (type.equals("p")) {
                     nyResept = utskrevendeLege.skrivPResept(naavaerLegemid, naavaerendePasient);
-                    reseptListe.leggTil(nyResept);
                 }
                 else { //behandler andre typer resepter
+                    int reit = Integer.parseInt(biter[4].trim());
                     if (type.equals("hvit")) {
-                        int reit = Integer.parseInt(biter[4].trim());
                         if (utskrevendeLege instanceof Spesialist) {
                             nyResept = spesLege.skrivHvitResept(naavaerLegemid, naavaerendePasient, reit);
                         } else {
                             nyResept = utskrevendeLege.skrivHvitResept(naavaerLegemid, naavaerendePasient, reit);
                         }
-                        reseptListe.leggTil(nyResept);
                     } else if (type.equals("blaa")) {
-                        int reit = Integer.parseInt(biter[4].trim());
                         if (utskrevendeLege instanceof Spesialist) {
                             nyResept = spesLege.skrivBlaaResept(naavaerLegemid, naavaerendePasient, reit);
                         } else {
                             nyResept = utskrevendeLege.skrivBlaaResept(naavaerLegemid, naavaerendePasient, reit);
                         }
-                        reseptListe.leggTil(nyResept);
                     } else if (type.equals("militaer")) {
-                        int reit = Integer.parseInt(biter[4].trim());
                         if (utskrevendeLege instanceof Spesialist) {
                             nyResept = spesLege.skrivMilitaerResept(naavaerLegemid, naavaerendePasient, reit);
                         } else {
                             nyResept = utskrevendeLege.skrivMilitaerResept(naavaerLegemid, naavaerendePasient, reit);
                         }
-                        reseptListe.leggTil(nyResept);
                     } else {System.out.println("Resepttypen " + type + "finns ikke i systemet. Avslutter."); System.exit(1);}
-                }
+                } reseptListe.leggTil(nyResept);
             }
         } else {System.out.println("Filformatten for pasienter er ikke riktig."); System.exit(1);}
     }
