@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Hovedprogram {
-  public static void main(String[] args) throws UlovligFormat, UlovligUtskrift {
+  public static void main(String[] args) throws UlovligFormat, UlovligUtskrift, IOException  {
     Legesystem legesystem = new Legesystem();
     legesystem.lesInnFraFil("inndata.txt");
 
@@ -47,8 +47,14 @@ public class Hovedprogram {
         continue;
       }else if(in == 5){
         System.out.println("\n\nSkriver info til fil...\n");
+        try {
         legesystem.skrivTilFil();
-        System.out.println("\nFerdig.");
+      } catch (IOException e) { /*er det riktig exception*/
+             System.out.println(e);
+             System.out.println("Noe gikk galt");
+         }
+        // legesystem.skrivTilFil();
+        // System.out.println("\nFerdig.");
         gaaTilbake(valg);
         in = Integer.parseInt(valg.nextLine().trim());
         continue;
