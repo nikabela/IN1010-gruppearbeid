@@ -46,15 +46,12 @@ public class Hovedprogram {
         in = Integer.parseInt(valg.nextLine().trim());
         continue;
       }else if(in == 5){
-        System.out.println("\n\nSkriver info til fil...\n");
         try {
-        legesystem.skrivTilFil();
-      } catch (IOException e) { /*er det riktig exception*/
-             System.out.println(e);
-             System.out.println("Noe gikk galt");
-         }
-        // legesystem.skrivTilFil();
-        // System.out.println("\nFerdig.");
+          legesystem.skrivTilFil();
+        } catch (IOException e) { /*er det riktig exception*/
+            System.out.println(e);
+            System.out.println("Noe gikk galt");
+          }
         gaaTilbake(valg);
         in = Integer.parseInt(valg.nextLine().trim());
         continue;
@@ -92,11 +89,11 @@ public class Hovedprogram {
   // tar brukeren tilbake til startmeny
   static void gaaTilbake(Scanner valg) {
     System.out.print("Tast inn 0 for aa gaa tilbake til start meny: ");
-          int inp = Integer.parseInt(valg.nextLine().trim());
-          while (inp != 0) {
-            System.out.println("Ugyldig input!");
-            inp = Integer.parseInt(valg.nextLine().trim());
-          }
-          startMeny();
+    int inp = Integer.parseInt(valg.nextLine().trim());
+    while (inp != 0) {
+      System.out.println("Ugyldig input!");
+      inp = Integer.parseInt(valg.nextLine().trim());
+    }
+    startMeny();
   }
 }
