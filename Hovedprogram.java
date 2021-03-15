@@ -9,15 +9,14 @@ public class Hovedprogram {
     startMeny(); // kaller paa start meny (se nederst)
 
     Scanner valg = new Scanner(System.in);
-    int in = Integer.parseInt(valg.nextLine().trim()); // funker bedre enn nextInt()
+    int in = Integer.parseInt(valg.nextLine().trim()); 
+    // funker bedre enn nextInt(), fordi kombinasjon av den med nextLine() skaper problemer
 
-    // selve kommandoloekken
-    while(in != 0){ // her skal programmet hoppe til riktig deloppgave i E
+    // selve kommandoloekken; her skal programmet hoppe til riktig deloppgave i E
+    while(in != 0){
       if(in == 1){
         System.out.println("\n\nEn fullstendig oversikt over pasienter, leger, legemidler og resepter:");
         legesystem.hentOversikt();
-
-        // "gaa-tilbake"-blokken; kan bare kopieres til andre deler av denne if-sjekken
         gaaTilbake(valg);
         in = Integer.parseInt(valg.nextLine().trim());
         continue;
@@ -48,7 +47,7 @@ public class Hovedprogram {
       }else if(in == 5){
         try {
           legesystem.skrivTilFil();
-        } catch (IOException e) { /*er det riktig exception*/
+        } catch (IOException e) {
             System.out.println(e);
             System.out.println("Noe gikk galt");
           }
