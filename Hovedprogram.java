@@ -42,7 +42,7 @@ public class Hovedprogram {
         in = Integer.parseInt(valg.nextLine().trim());
         continue;
       }else if(in == 4){
-        System.out.println("\n\nStatistikk:");
+        System.out.println("\n\nStatistikk:\n");
         legesystem.hentStatistikk();
 
         gaaTilbake(valg);
