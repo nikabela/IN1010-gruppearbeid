@@ -48,7 +48,6 @@ abstract class Resept{
   }
 
   abstract public int prisAABetale();
-
   abstract public String farge();
 
   @Override
@@ -58,7 +57,6 @@ abstract class Resept{
 }
 
 class HvitResept extends Resept{
-
   public HvitResept ( Legemidler legemiddel, Lege lege, Pasient pasient, int reit){
     super( legemiddel, lege, reit, pasient);
   }
@@ -76,11 +74,8 @@ class HvitResept extends Resept{
 
 
 class Militaer extends HvitResept{
-
   public Militaer(Legemidler legemiddel, Lege lege, Pasient pasient, int reit){
-
     super(legemiddel, lege, pasient, reit);
-
     legemiddel.settNyPris(0);
 
   }
@@ -92,9 +87,6 @@ class PResept extends HvitResept{
 
   public PResept ( Legemidler legemiddel, Lege lege, Pasient pasient){
     super( legemiddel, lege, pasient, 3);
-
-    // legemiddel.settNyPris(legemiddel.hentPris() - 108);
-
   }
 
   @Override
