@@ -131,7 +131,6 @@ class Legesystem {
                     if (lege.hentLege().equals(legeNavn)) {
                         utskrevendeLege = lege;
                         if (utskrevendeLege instanceof Spesialist) {spesLege = (Spesialist) utskrevendeLege;}
-                        //else {Lege spesLege = utskrevendeLege;}
                     }
                 }
                 if (utskrevendeLege == null) {
@@ -273,10 +272,10 @@ class Legesystem {
 
     public void leggTilLegemiddel(Scanner data) {
         System.out.print("\nSkriv inn navn paa legemiddel: ");
-        String navn = data.nextLine().trim();                     // data
+        String navn = data.nextLine().trim(); // data
 
         System.out.print("Skriv inn type paa legemiddel: ");
-        String type = data.nextLine().trim();                         // data
+        String type = data.nextLine().trim(); // data
 
         //sjekker om type er gyldig
         while (!type.matches("(V|v)anlig|(N|n)arkotisk|(V|v)anedannende")) {
@@ -291,7 +290,7 @@ class Legesystem {
         //sjekker om prisen er gyldig
         prisString = erInt(data, prisString, "Skriv inn pris paa legemiddel: ");
 
-        int pris = Integer.parseInt(prisString);                   // data
+        int pris = Integer.parseInt(prisString); // data
 
         System.out.print("Skriv inn virkestoff til legemiddel: ");
         String mg = data.nextLine().trim();
@@ -299,16 +298,14 @@ class Legesystem {
         //sjekker om virkestoff er gyldig
         mg = erDouble(data, mg, "Skriv inn virkestoff til legemiddel: ");
 
-        double stoff = Double.parseDouble(mg);                    // data
-
-        //data.nextLine(); // MAA IKKE FJERNES - tom input linje knyttet til rar Scanner oppfoersel
+        double stoff = Double.parseDouble(mg); // data
 
         int styrke = 0;
         if (type.matches("narkotisk|vanedannende")) {
             System.out.print("Skriv inn styrke til legemiddel: ");
             String strk = data.nextLine().trim();
             strk = erInt(data, strk, "Skriv inn styrke til legemiddel: ");
-            styrke = Integer.parseInt(strk);                      // data
+            styrke = Integer.parseInt(strk); // data
 
         }
 
@@ -441,8 +438,6 @@ class Legesystem {
 
         pasient.leggTilReseptIStabel(resept);
         reseptListe.leggTil(resept);
-
-        //dette skulle vaere den siste linjen i hele metoden
         System.out.println("\nNy resept er lagt til.");
     }
 
@@ -581,7 +576,6 @@ class Legesystem {
         System.out.println("  Antall narkotiske resepter: " + antallNarkotiske);
         System.out.println("  Antall vanedannende resepter: " + antallVanedannende);
 
-        // System.out.println("Statistikk om mulig misbruk av narkotika.");
         System.out.println("\nLeger som har skrevet ut narkotiske legemidler: ");
 
         for (int i = 0; i < legerListe.stoerrelse(); i++) {
@@ -614,7 +608,6 @@ class Legesystem {
           for (int l = 0; l < tempPasListe.stoerrelse(); l++) {
             if (tempPasListe.hent(l).hentLegemiddel() instanceof Narkotisk) {
               antallPasMedNark++;
-              //pasMedNark = tempPasListe.hent(l).hentPasient(); // ??
             }
           }
 
