@@ -582,7 +582,6 @@ class Legesystem {
         System.out.println("  Antall narkotiske resepter: " + antallNarkotiske);
         System.out.println("  Antall vanedannende resepter: " + antallVanedannende + "\n");
 
-
 //    System.out.println("Statistikk om mulig misbruk av narkotika.");
         System.out.println("\nLeger som har skrevet ut narkotiske legemidler: ");
 
@@ -599,7 +598,7 @@ class Legesystem {
           }
 
 
-          if (antallLegeNark > 0) {       
+          if (antallLegeNark > 0) {
             System.out.println("Lege " + legeMedNark.hentLege() + " har skrevet ut " + antallLegeNark
             + " narkotiske legemidler");
           }
@@ -607,26 +606,32 @@ class Legesystem {
 
         System.out.println("\nPasienter med gyldig resept paa narkotiske legemidler: ");
 
-        for (int i = 0; i < pasientListe.stoerrelse(); i++) {
-          Pasient pasMedNark = pasientListe.hent(i);
+        for (int k = 0; k < pasientListe.stoerrelse(); k++) {
+
+          Pasient pasMedNark = pasientListe.hent(k);
           int antallPasMedNark = 0;
           Liste<Resept> tempPasListe = pasMedNark.hentResepter();
 
-          for (int j = 0; j < tempPasListe.stoerrelse(); j++) {
-            if (tempPasListe.hent(j).hentLegemiddel() instanceof Narkotisk) {
+          for (int l = 0; l < tempPasListe.stoerrelse(); l++) {
+            if (tempPasListe.hent(l).hentLegemiddel() instanceof Narkotisk) {
               antallPasMedNark++;
+              pasMedNark = tempPasListe.hent(l).hentPasient();
             }
-          }
-
-          if (antallPasMedNark > 0) {        //NARKOTISKE RESEPTEN FINNES IKKE, SÅ HER SKRIVES UT INGEN PASIENTER MED RESEPTER!!!
             System.out.println("Pasient " + pasMedNark.hentNavn() + " har faatt utskrevet "
             + antallPasMedNark + " narkotiske resepter");
           }
+/*
+          if (antallPasMedNark > 0) {
+            System.out.println("Pasient " + pasMedNark.hentNavn() + " har faatt utskrevet "
+            + antallPasMedNark + " narkotiske resepter");
+          }*/
         }
 
         System.out.println("\n");
 
-        
+    }
+
+
     // Deloppgave E7
     public void skrivTilFil() {
 
