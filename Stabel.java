@@ -7,9 +7,6 @@ class Stabel <T>  extends LenketListe <T>{
 
   // Tar av elementet på slutten av lista
   public T taAv(){
-
    return fjern(stoerrelse() -1);
-
-}
-
+  }
 }
