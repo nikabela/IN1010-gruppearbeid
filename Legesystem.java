@@ -495,69 +495,73 @@ class Legesystem {
         return false;
     }
 
-    /*private boolean erSpesialist(String legeNavn){
-      for (Lege lege : legerListe){
-        if (lege.hentLege().equals(legeNavn) && lege instanceof Spesialist){
-          return true;
-        }
-      }
-      return false;
-    }*/
-
-
     // Deloppgave E5
-    public void brukResept(Scanner inputHeltall) {
 
-        System.out.println("Hvilken pasient vil du se resepter for?");
-        // for-løkke som printer ut alle pasienter med info
-        for (Pasient pasient : pasientListe) {
-            System.out.println("    "+ pasient.toString());
-        }
+  public void brukResept(Scanner inputHeltall) {
+     System.out.println();
+     System.out.println("Hvilken pasient vil du se resepter for?");
+     // for-løkke som printer ut alle pasienter med info
+     for (Pasient pasient : pasientListe) {
+       System.out.println("    "+ pasient.toString());
+     }
+     // ta input (integer) for indeks som er pasientens id;
+     System.out.println();
+     System.out.print("Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
+     String pasID = inputHeltall.nextLine().trim();
 
-        //System.out.println("Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
+     // tester at inputen er faktisk int (se erInt oppe)
+     pasID = erInt(inputHeltall, pasID, "Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
+     int pasientID = Integer.parseInt(pasID);
+     System.out.println();
+     System.out.println("Valgt pasient: ");
 
-    // ta input (integer) for indeks som er pasientens id;
-        //Scanner inputHeltall = new Scanner(System.in); // trenger ikke aa opprette en ny scanner - skaper problemer
-        System.out.print("Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
+     // presenterer på nytt denne pasientens info
+     Pasient pasient = pasientListe.hent(pasientID);
+     System.out.println("Navn: " + pasient.hentNavn() + " " + "FoedselsNr: " + pasient.hentFodselsnr());
+     System.out.println();
+     System.out.println("Hvilken resept vil du bruke?");
 
-        String pasID = inputHeltall.nextLine().trim();
-        // tester at inputen er faktisk int (se erInt oppe)
-        pasID = erInt(inputHeltall, pasID, "Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
-        int pasientID = Integer.parseInt(pasID);
-        System.out.println("Valgt pasient: ");
+     // presenter resepter på pasienten
+     for (Resept resept : pasient.hentResepter()) {
+       System.out.println("    " + resept.hentReseptId() + ":" + " " + resept.hentLegemiddel().hentNavn() + " (" + resept.hentReit() + " reit)");
 
-        // presenterer på nytt denne pasientens info
-        Pasient pasient = pasientListe.hent(pasientID);
-        System.out.println(pasient.hentNavn() + " " + pasient.hentFodselsnr());
+     }
 
-        System.out.println("Hvilken resept vil du bruke?");
+     // ta input (integer) for indeks for å velge legemiddel
+     System.out.println();
+     System.out.print("Oppgi et gyldig heltall som vist fra reseptlisten: ");
+     String resID = inputHeltall.nextLine().trim();
 
-        // presenter resepter på pasienten
-    for (Resept resept : pasient.hentResepter()) {
-    System.out.println(resept.hentReseptId() + " " + resept.hentLegemiddel().hentNavn() + " (" + resept.hentReit() + " reit)");
-    }
+     // tester at inputen er faktisk int (se erInt oppe)
+     resID = erInt(inputHeltall, resID, "Oppgi et gyldig heltall som vist fra pasientlisten: ");
+     int reseptID = Integer.parseInt(resID);
+     System.out.println("Valgt resept med resept ID: " + reseptID);
+     System.out.println();
 
-        // ta input (integer) for indeks for å velge legemiddel
-    //Scanner inputHeltallResept = new Scanner(System.in); // trenger ikke aa opprette en ny scanner - skaper problemer
-    System.out.print("Oppgi et gyldig heltall som vist fra reseptlisten: ");
-    String resID = inputHeltall.nextLine().trim();
-
-    // tester at inputen er faktisk int (se erInt oppe)
-    resID = erInt(inputHeltall, resID, "Oppgi et gyldig heltall som vist fra pasientlisten: ");
-    int reseptID = Integer.parseInt(resID);
-
-    // henter valgt resept
-    Resept resept = pasient.hentResepter().hent(reseptID);
-    System.out.println("Bruker nå valgt resept med resept ID: " + reseptID);
-
-        // bruk metoden bruk() for å bruke resepten
-    if (resept.bruk()) {
-    System.out.println("Brukte resept paa " + resept.hentLegemiddel().hentNavn() + "." + " " + "Antall gjenvaerende reit: " + resept.hentReit());
-    } else {
-    System.out.println("Kunne ikke bruke resept paa " + resept.hentLegemiddel().hentNavn() + " " + "(ingen gjenvaerende reit)." );
-    }
-
-    }
+     // henter valgt resept
+     boolean reseptIDFinnes = false;
+     for (Resept resept : pasient.hentResepter()) {
+         int reseptIDForBruk = resept.hentReseptId(); // finner reseptID
+         // Dersom oppgitt id er lik gyldig, bruk resept
+         if (reseptIDForBruk == reseptID) {
+             reseptIDFinnes = true;
+             // Forsøker å bruke resept
+             if (resept.bruk()) {
+               System.out.println("Brukte resept paa " + resept.hentLegemiddel().hentNavn() + "." + " " + "Antall gjenvaerende reit: " + resept.hentReit());
+               System.out.println();
+             } else {
+               System.out.println("Kunne ikke bruke resept paa " + resept.hentLegemiddel().hentNavn() + " " + "(ingen gjenvaerende reit)." );
+               System.out.println();
+             }
+         }
+      }
+      // Gir melding til bruker dersom reseptID ikke eksisterer
+       if (reseptIDFinnes == false) {
+        System.out.println("ReseptID (heltallet) du oppga er ikke gyldig!");
+        System.out.println();
+        return;
+      }
+   }
 
     // Deloppgave E6
     public void hentStatistikk() {
