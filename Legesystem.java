@@ -599,7 +599,7 @@ class Legesystem {
           }
 
 
-          if (antallLegeNark > 0) {       //NARKOTISKE RESEPTEN FINNES IKKE, SÅ HER SKRIVES UT INGEN LEGER!!!
+          if (antallLegeNark > 0) {       
             System.out.println("Lege " + legeMedNark.hentLege() + " har skrevet ut " + antallLegeNark
             + " narkotiske legemidler");
           }
