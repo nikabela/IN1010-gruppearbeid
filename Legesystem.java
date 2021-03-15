@@ -137,7 +137,7 @@ class Legesystem {
                 if (utskrevendeLege == null) {
                     System.out.println("Legen " + utskrevendeLege + " er ikke i systemet.");
                     System.exit(1);
-                } else
+                }
                 //henter ut pasient
                 for(Pasient pasient: pasientListe) {
                     if (pasient.hentPasientId() == pasientID) naavaerendePasient = pasient;
@@ -147,11 +147,10 @@ class Legesystem {
                     System.exit(1);
                 }
 
-                       //behandler p-resepter
+                    //behandler p-resepter
                 if (type.equals("p")) {
                     nyResept = utskrevendeLege.skrivPResept(naavaerLegemid, naavaerendePasient);
-                }
-                else { //behandler andre typer resepter
+                } else { //behandler andre typer resepter
                     int reit = Integer.parseInt(biter[4].trim());
                     if (type.equals("hvit")) {
                         if (utskrevendeLege instanceof Spesialist) {
@@ -173,6 +172,7 @@ class Legesystem {
                         }
                     } else {System.out.println("Resepttypen " + type + "finns ikke i systemet. Avslutter."); System.exit(1);}
                 } reseptListe.leggTil(nyResept);
+                naavaerendePasient.leggTilReseptIStabel(nyResept);
             }
         } else {System.out.println("Filformatten for pasienter er ikke riktig."); System.exit(1);}
     }
@@ -450,7 +450,7 @@ class Legesystem {
     }
 
 
-    // Det var bestemt for aa bruke egne sjekk-metoder i stedet for nextInt() og nextDouble() i Scanner,
+    // Det var bestemt for aa bruke egne sjekk-metoder i stedet for hasNextInt() og hasNextDouble() i Scanner,
     // fordi next(), nextInt() og nextDouble() kombinerer ikke godt med nextLine.
     private String erInt(Scanner data, String input, String outputLinje) {
         while (!input.matches("([0-9]+)")) {
@@ -565,7 +565,7 @@ class Legesystem {
         int antallNarkotiske = 0;
         int antallVanedannende = 0;
 
-        System.out.println("  Antall resepter: " + reseptListe.stoerrelse());
+        System.out.println("Generell oversikt:\n  Antall resepter: " + reseptListe.stoerrelse());
 
         try {
             for (int i = 0; i < reseptListe.stoerrelse(); i++) {
@@ -580,10 +580,9 @@ class Legesystem {
         }
 
         System.out.println("  Antall narkotiske resepter: " + antallNarkotiske);
-        System.out.println("  Antall vanedannende resepter: " + antallVanedannende + "\n");
+        System.out.println("  Antall vanedannende resepter: " + antallVanedannende);
 
-
-//    System.out.println("Statistikk om mulig misbruk av narkotika.");
+        // System.out.println("Statistikk om mulig misbruk av narkotika.");
         System.out.println("\nLeger som har skrevet ut narkotiske legemidler: ");
 
         for (int i = 0; i < legerListe.stoerrelse(); i++) {
@@ -599,34 +598,38 @@ class Legesystem {
           }
 
 
-          if (antallLegeNark > 0) {       
-            System.out.println("Lege " + legeMedNark.hentLege() + " har skrevet ut " + antallLegeNark
-            + " narkotiske legemidler");
+          if (antallLegeNark > 0) {
+            System.out.println("  " + legeMedNark.hentLege() + " har skrevet ut " + antallLegeNark
+            + " narkotiske legemidler.");
           }
         }
 
         System.out.println("\nPasienter med gyldig resept paa narkotiske legemidler: ");
 
-        for (int i = 0; i < pasientListe.stoerrelse(); i++) {
-          Pasient pasMedNark = pasientListe.hent(i);
+        for (int k = 0; k < pasientListe.stoerrelse(); k++) {
+
+          Pasient pasMedNark = pasientListe.hent(k);
           int antallPasMedNark = 0;
           Liste<Resept> tempPasListe = pasMedNark.hentResepter();
 
-          for (int j = 0; j < tempPasListe.stoerrelse(); j++) {
-            if (tempPasListe.hent(j).hentLegemiddel() instanceof Narkotisk) {
+          for (int l = 0; l < tempPasListe.stoerrelse(); l++) {
+            if (tempPasListe.hent(l).hentLegemiddel() instanceof Narkotisk) {
               antallPasMedNark++;
+              //pasMedNark = tempPasListe.hent(l).hentPasient(); // ??
             }
           }
 
-          if (antallPasMedNark > 0) {        //NARKOTISKE RESEPTEN FINNES IKKE, SÅ HER SKRIVES UT INGEN PASIENTER MED RESEPTER!!!
-            System.out.println("Pasient " + pasMedNark.hentNavn() + " har faatt utskrevet "
-            + antallPasMedNark + " narkotiske resepter");
+          if (antallPasMedNark > 0) {
+            System.out.println("  Pasient " + pasMedNark.hentNavn() + " har faatt utskrevet "
+            + antallPasMedNark + " narkotiske resepter.");
           }
         }
 
         System.out.println("\n");
 
-        
+    }
+
+
     // Deloppgave E7
     public void skrivTilFil() {
 
