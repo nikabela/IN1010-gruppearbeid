@@ -386,16 +386,16 @@ class Legesystem {
           return;
         }
 
-        System.out.print("Hvilken type skal resepten være (p-resept, militaer eller blaa): ");
+        System.out.print("Hvilken type skal resepten være (P-resept, Militaer eller Blaa): ");
         String reseptType = data.nextLine().trim();
-        while (!reseptType.matches("p-resept|militaer|blaa")) {
+        while (!reseptType.matches("(P|p)-resept|(M|m)ilitaer|(B|b)laa")) {
             System.out.println("Ugyldig input! Tast inn eksisterende type.");
-            System.out.print("Hvilken type skal resepten være (p-resept, militaer eller blaa): ");
+            System.out.print("Hvilken type skal resepten være (P-resept, Militaer eller Blaa): ");
             reseptType = data.nextLine().trim();
         }
 
         int reit = 3;
-        if (!reseptType.equals("p-resept")) {
+        if (!reseptType.equals("P-resept") || !reseptType.equals("p-resept")) {
             System.out.print("Hvor mange reit skal resepten ha: ");
             String rt = data.nextLine().trim();
             rt = erInt(data, rt, "Hvor mange reit skal resepten ha: ");
@@ -429,14 +429,14 @@ class Legesystem {
           return;
         }
 
-        if (reseptType.equals("blaa")){
+        if (reseptType.equals("Blaa") || reseptType.equals("blaa")){
           resept = new BlaaResept(legemiddel, lege, pasient, reit);
-        } else if(reseptType.equals("militaer")){
+        } else if(reseptType.equals("Militaer") || reseptType.equals("militaer")){
           resept = new Militaer(legemiddel, lege, pasient, reit);
-        } else if(reseptType.equals("p-resept")){
+        } else if(reseptType.equals("P-resept") || reseptType.equals("p-resept")){
           resept = new PResept(legemiddel, lege, pasient);
         } else {
-            System.out.println("Resepttypen finns ikke i systemet. Avslutter.");
+            System.out.println("Resepttypen finnes ikke i systemet. Avslutter.");
         }
 
         pasient.leggTilReseptIStabel(resept);
