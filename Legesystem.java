@@ -356,7 +356,7 @@ class Legesystem {
           System.out.println("Lege er ikke registrert.");
           return;
         }
-  
+
         System.out.print("Skriv legemiddel-id: ");
         String lgmdlID = data.nextLine().trim();
 
@@ -368,7 +368,7 @@ class Legesystem {
           System.out.println("Legemiddelet finnes ikke.");
           return;
         }
-        
+
         // Dette trenger vi vel ikke, tror jeg, fordi vi allerede vet type paa legemiddelet fra foer
         /*System.out.println("Skriv inn hvilken type legemiddelet er (vanlig, vanedannende eller narkotisk)");
         String typeLegemiddel = data.nextLine().trim();
@@ -388,7 +388,7 @@ class Legesystem {
           System.out.println("Pasienten er ikke registrert.");
           return;
         }
-  
+
         System.out.print("Hvilken type skal resepten være (p-resept, militaer eller blaa): ");
         String reseptType = data.nextLine().trim();
         while (!reseptType.matches("p-resept|militaer|blaa")) {
@@ -404,7 +404,7 @@ class Legesystem {
             rt = erInt(data, rt, "Hvor mange reit skal resepten ha: ");
             reit = Integer.parseInt(rt);
         }
-  
+
         Resept resept = null;
 
         Legemidler legemiddel = null;
@@ -420,18 +420,18 @@ class Legesystem {
             pasient = p;
           }
         }
-  
+
         Lege lege = null;
         for (Lege l : legerListe) {
             if (l.hentLege().equals(legeNavn)) lege = l;
         }
-             
+
         if((legemiddel instanceof Narkotisk) && !(lege instanceof Spesialist) ){
           System.out.println("\nwtf");
           System.out.println("Denne legen er ikke autorisert til aa skrive ut legemiddelet.");
           return;
         }
-  
+
         if (reseptType.equals("blaa")){
           resept = new BlaaResept(legemiddel, lege, pasient, reit);
         } else if(reseptType.equals("militaer")){
@@ -441,17 +441,17 @@ class Legesystem {
         } else {
             System.out.println("Resepttypen finns ikke i systemet. Avslutter.");
         }
-  
+
         pasient.leggTilReseptIStabel(resept);
         reseptListe.leggTil(resept);
-  
+
         //dette skulle vaere den siste linjen i hele metoden
         System.out.println("\nNy resept er lagt til.");
     }
-  
-      
-    // Det var bestemt for aa bruke egne sjekk-metoder i stedet for nextInt() og nextDouble() i Scanner, 
-    // fordi next(), nextInt() og nextDouble() kombinerer ikke godt med nextLine. 
+
+
+    // Det var bestemt for aa bruke egne sjekk-metoder i stedet for nextInt() og nextDouble() i Scanner,
+    // fordi next(), nextInt() og nextDouble() kombinerer ikke godt med nextLine.
     private String erInt(Scanner data, String input, String outputLinje) {
         while (!input.matches("([0-9]+)")) {
             System.out.println("Ugyldig input! Tast inn integer.");
@@ -513,9 +513,9 @@ class Legesystem {
         for (Pasient pasient : pasientListe) {
             System.out.println("    "+ pasient.toString());
         }
-    
+
         //System.out.println("Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
-    
+
     // ta input (integer) for indeks som er pasientens id;
         //Scanner inputHeltall = new Scanner(System.in); // trenger ikke aa opprette en ny scanner - skaper problemer
         System.out.print("Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
@@ -525,18 +525,18 @@ class Legesystem {
         pasID = erInt(inputHeltall, pasID, "Vennligst oppgi pasientens id for å velge pasient (et gyldig heltall fra listen): ");
         int pasientID = Integer.parseInt(pasID);
         System.out.println("Valgt pasient: ");
-    
+
         // presenterer på nytt denne pasientens info
         Pasient pasient = pasientListe.hent(pasientID);
         System.out.println(pasient.hentNavn() + " " + pasient.hentFodselsnr());
-    
+
         System.out.println("Hvilken resept vil du bruke?");
-    
+
         // presenter resepter på pasienten
     for (Resept resept : pasient.hentResepter()) {
     System.out.println(resept.hentReseptId() + " " + resept.hentLegemiddel().hentNavn() + " (" + resept.hentReit() + " reit)");
     }
-    
+
         // ta input (integer) for indeks for å velge legemiddel
     //Scanner inputHeltallResept = new Scanner(System.in); // trenger ikke aa opprette en ny scanner - skaper problemer
     System.out.print("Oppgi et gyldig heltall som vist fra reseptlisten: ");
@@ -546,17 +546,17 @@ class Legesystem {
     resID = erInt(inputHeltall, resID, "Oppgi et gyldig heltall som vist fra pasientlisten: ");
     int reseptID = Integer.parseInt(resID);
 
-    // henter valgt resept 
+    // henter valgt resept
     Resept resept = pasient.hentResepter().hent(reseptID);
     System.out.println("Bruker nå valgt resept med resept ID: " + reseptID);
-    
+
         // bruk metoden bruk() for å bruke resepten
-    if (resept.bruk()) { 
+    if (resept.bruk()) {
     System.out.println("Brukte resept paa " + resept.hentLegemiddel().hentNavn() + "." + " " + "Antall gjenvaerende reit: " + resept.hentReit());
-    } else { 
+    } else {
     System.out.println("Kunne ikke bruke resept paa " + resept.hentLegemiddel().hentNavn() + " " + "(ingen gjenvaerende reit)." );
     }
-    
+
     }
 
     // Deloppgave E6
@@ -581,9 +581,52 @@ class Legesystem {
 
         System.out.println("  Antall narkotiske resepter: " + antallNarkotiske);
         System.out.println("  Antall vanedannende resepter: " + antallVanedannende + "\n");
-    }
 
 
+//    System.out.println("Statistikk om mulig misbruk av narkotika.");
+        System.out.println("\nLeger som har skrevet ut narkotiske legemidler: ");
+
+        for (int i = 0; i < legerListe.stoerrelse(); i++) {
+
+          Lege legeMedNark = legerListe.hent(i);
+          int antallLegeNark = 0;
+          Liste<Resept> tempLegeListe = legeMedNark.hentUtskrevedeResepter();
+
+          for (int j = 0; j < tempLegeListe.stoerrelse(); j++) {
+            if (tempLegeListe.hent(j).hentLegemiddel() instanceof Narkotisk) {
+              antallLegeNark++;
+            }
+          }
+
+
+          if (antallLegeNark > 0) {       //NARKOTISKE RESEPTEN FINNES IKKE, SÅ HER SKRIVES UT INGEN LEGER!!!
+            System.out.println("Lege " + legeMedNark.hentLege() + " har skrevet ut " + antallLegeNark
+            + " narkotiske legemidler");
+          }
+        }
+
+        System.out.println("\nPasienter med gyldig resept paa narkotiske legemidler: ");
+
+        for (int i = 0; i < pasientListe.stoerrelse(); i++) {
+          Pasient pasMedNark = pasientListe.hent(i);
+          int antallPasMedNark = 0;
+          Liste<Resept> tempPasListe = pasMedNark.hentResepter();
+
+          for (int j = 0; j < tempPasListe.stoerrelse(); j++) {
+            if (tempPasListe.hent(j).hentLegemiddel() instanceof Narkotisk) {
+              antallPasMedNark++;
+            }
+          }
+
+          if (antallPasMedNark > 0) {        //NARKOTISKE RESEPTEN FINNES IKKE, SÅ HER SKRIVES UT INGEN PASIENTER MED RESEPTER!!!
+            System.out.println("Pasient " + pasMedNark.hentNavn() + " har faatt utskrevet "
+            + antallPasMedNark + " narkotiske resepter");
+          }
+        }
+
+        System.out.println("\n");
+
+        
     // Deloppgave E7
     public void skrivTilFil() {
 
