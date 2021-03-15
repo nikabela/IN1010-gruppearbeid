@@ -4,13 +4,11 @@ public class SortertLenkeliste <T extends Comparable <T>> extends LenketListe <T
   public void leggTil(T x){
     int index = 0;
 
-
     // itererer gjennom lista, så lenge i er mindre enn strl minus 1
     for (int i = 0; i < stoerrelse(); i++){
       // sammenligner x med data på indeks
       if (x.compareTo(hent(i)) > 0){
         index = i + 1;
-
       }
     } super.leggTil(index, x);
   }
@@ -20,9 +18,7 @@ public class SortertLenkeliste <T extends Comparable <T>> extends LenketListe <T
 
     if (stoerrelse() == 1){
       return super.fjern();
-
     }
-
     else {
       return fjern(stoerrelse() - 1);
     }
